@@ -73,7 +73,7 @@ export function ChatWindow({
 
   return (
     // Outer Chat Area is FULLY TRANSPARENT: no big glass panel, no background, no border, no shadow
-    <div className="relative flex h-full w-full flex-col justify-between overflow-hidden bg-transparent">
+    <div className="relative flex h-full w-full min-h-0 flex-col justify-between bg-transparent">
       {/* Cold start notification card */}
       <AnimatePresence>
         {isWakingServer && (
@@ -206,8 +206,8 @@ export function ChatWindow({
         )}
       </AnimatePresence>
 
-      {/* Bottom Input Area: fully transparent wrapper containing ChatInput as an individual card */}
-      <div className="bg-transparent p-0 pt-2 shrink-0">
+      {/* Bottom Input Area: fully transparent wrapper with padding so shadows and focus ring are never clipped */}
+      <div className="bg-transparent px-3 pb-3 pt-2 sm:px-6 sm:pb-4 shrink-0">
         <ChatInput
           onSend={onSendMessage}
           onStop={onStopStreaming}

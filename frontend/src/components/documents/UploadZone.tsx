@@ -64,7 +64,7 @@ export function UploadZone({
   };
 
   return (
-    <div className="w-full">
+    <div id="sidebar-upload-zone" className="w-full scroll-mt-6">
       <motion.div
         whileHover={disabled || isUploading || isLimitReached ? undefined : { scale: 1.01 }}
         whileTap={disabled || isUploading || isLimitReached ? undefined : { scale: 0.99 }}

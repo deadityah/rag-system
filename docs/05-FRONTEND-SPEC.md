@@ -105,11 +105,18 @@ Logic for `sendMessage(question)`:
 - Appears on the left side where the assistant answer will appear from the moment the user sends a question until the first answer text arrives.
 - Hides when the first token arrives, when Stop is pressed, and on error. Never shows at any other time.
 
+### `NavBar`
+- Floating pill navigation bar at top center (`reference/navbar.md`).
+- 3 items:
+  1. "New chat": Stops ongoing generation and clears chat messages (prompts inline confirmation "Clear this chat? Yes / No").
+  2. "Documents": On mobile, toggles sidebar drawer; on desktop, scrolls/focuses to upload area.
+  3. "How it works": Opens a 4-step glass explanation modal (dismissible with button or Escape key).
+
 ## 7. Layout wiring (`app/page.tsx`)
 
-- Render `DotBackground` once at the top.
-- Desktop: `Sidebar` + `ChatWindow` side by side.
-- Mobile: top bar with menu button that opens the `Sidebar` as a drawer.
+- Render `DotBackground` once at the top (full screen, z-index 0).
+- Top: Floating `NavBar` centered on desktop, compact on mobile with logo.
+- Main columns: `Sidebar` + `ChatWindow` side by side with unclipped padding.
 - Chat history lives in React state (resets on refresh). That is fine for v1.
 
 ## 8. Performance

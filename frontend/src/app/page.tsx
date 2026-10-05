@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Menu, Layers } from "lucide-react";
+import { Layers } from "lucide-react";
 import type { DocumentInfo, ChatMessage } from "@/lib/types";
 import { DotBackground } from "@/components/background/DotBackground";
 import { Sidebar } from "@/components/layout/Sidebar";
+import { NavBar } from "@/components/layout/NavBar";
 import { ChatWindow } from "@/components/chat/ChatWindow";
 import { GlassButton } from "@/components/ui/GlassButton";
 
@@ -182,6 +183,23 @@ export default function Home() {
     );
   };
 
+  const handleNewChat = () => {
+    handleStopStreaming();
+    setMessages([]);
+    setIsThinking(false);
+  };
+
+  const handleToggleDocuments = () => {
+    if (typeof window !== "undefined" && window.innerWidth < 1024) {
+      setIsMobileSidebarOpen((prev) => !prev);
+    } else {
+      const uploadEl = document.getElementById("sidebar-upload-zone");
+      if (uploadEl) {
+        uploadEl.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+  };
+
   const loadPresetState = (stateName: string) => {
     if (streamingTimerRef.current) clearInterval(streamingTimerRef.current);
     setIsStreaming(false);
@@ -258,25 +276,22 @@ export default function Home() {
 
       {/* Main Layout Container (fully transparent wrapper, z-index: 10) */}
       <div className="relative z-10 flex h-screen h-[100dvh] flex-col p-3 sm:p-5 lg:p-6 bg-transparent">
-        {/* Mobile Top Navigation Bar (separate glass card, rounded-[24px]) */}
-        <div className="glass-card mb-3 flex items-center justify-between rounded-[24px] px-4 py-2.5 lg:hidden">
-          <div className="flex items-center gap-2">
-            <div className="h-2.5 w-2.5 rounded-full bg-accent" />
+        {/* Header / Top Bar containing NavBar (floating pill at top center on desktop, compact on mobile) */}
+        <header className="relative z-20 mb-3 flex shrink-0 items-center justify-between lg:justify-center">
+          {/* Mobile-only logo */}
+          <div className="flex items-center gap-2 lg:hidden">
             <span className="font-logo font-normal text-xl tracking-normal text-[#1f1f23]">
               DocuMind
             </span>
           </div>
 
-          <GlassButton
-            size="sm"
-            variant="secondary"
-            onClick={() => setIsMobileSidebarOpen(true)}
-            className="text-xs"
-          >
-            <Menu className="mr-1.5 h-3.5 w-3.5" />
-            Documents ({documents.length})
-          </GlassButton>
-        </div>
+          <NavBar
+            onNewChat={handleNewChat}
+            onToggleDocuments={handleToggleDocuments}
+            hasMessages={messages.length > 0}
+            documentCount={documents.length}
+          />
+        </header>
 
         {/* Content Columns: fully transparent wrapper, no big glass container */}
         <div className="flex flex-1 min-h-0 gap-5 bg-transparent">
@@ -291,7 +306,7 @@ export default function Home() {
             onCloseMobile={() => setIsMobileSidebarOpen(false)}
           />
 
-          <main className="flex-1 overflow-hidden bg-transparent">
+          <main className="flex-1 min-h-0 bg-transparent flex flex-col">
             <ChatWindow
               messages={messages}
               hasDocuments={documents.length > 0}

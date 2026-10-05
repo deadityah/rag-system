@@ -29,15 +29,16 @@ export const GlassInput = React.forwardRef<
   ) => {
     const localRef = useRef<HTMLTextAreaElement | null>(null);
 
-    // Auto-grow calculation up to maxRows
+    // Auto-grow calculation up to maxRows (no layout shifts)
     useEffect(() => {
       const textarea = localRef.current;
       if (!textarea) return;
 
       textarea.style.height = "auto";
-      const singleLineHeight = 24;
-      const maxHeight = singleLineHeight * maxRows + 20; // 20px padding
-      textarea.style.height = `${Math.min(textarea.scrollHeight, maxHeight)}px`;
+      const lineHeight = 24;
+      const maxHeight = lineHeight * maxRows;
+      const newHeight = Math.min(textarea.scrollHeight, maxHeight);
+      textarea.style.height = `${Math.max(newHeight, lineHeight)}px`;
     }, [value, maxRows]);
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -67,9 +68,13 @@ export const GlassInput = React.forwardRef<
         disabled={disabled}
         placeholder={placeholder}
         className={cn(
-          "w-full resize-none bg-transparent px-4 py-3 text-[15px] leading-relaxed text-text-primary placeholder:text-text-muted focus:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+          "w-full resize-none border-0 bg-transparent p-0 font-body text-[15px] sm:text-[16px] leading-relaxed text-[#1f1f23] placeholder:text-[#71717a] outline-none shadow-none focus:outline-none focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50 no-scrollbar",
           className
         )}
+        style={{
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+        }}
         {...props}
       />
     );

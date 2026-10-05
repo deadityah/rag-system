@@ -2,82 +2,71 @@
 
 ## 1. Look and feel
 
-**Style:** Glassmorphism with a liquid-glass feel. Bright, calm, clean, premium.
+**Style:** Clean frosted-glass style (plain glassmorphism). Pure white background (`#ffffff`), calm, clean, premium.
 
-- Colors: **white and off-white only**, with soft gray text. No bright brand colors.
-- Panels look like frosted glass floating over an animated dot background.
-- Slight blur, soft shadows, thin light borders, gentle highlights.
-- Motion is smooth and quiet. Nothing flashy.
+- Background: **pure white (#ffffff)** with a soft, quiet cursor-repelling dot background.
+- Panels: separate frosted glass cards directly over the dot background.
+- Clean blur, soft shadows, thin light borders (`1px solid rgba(255, 255, 255, 0.85)`), no liquid glass, no gradient overlays, no inner specular highlights.
+- Motion is smooth and quiet.
 
-## 2. The two reference files (MOST IMPORTANT)
+## 2. Reference files
 
-The owner provided real code for the two signature effects. **Use that code.**
-
-| Effect | Reference file | Wrap it as |
+| Feature | Reference file | Component |
 |---|---|---|
-| Liquid glass panels | `reference/liquidglass.md` | `components/ui/GlassPanel.tsx` + glass CSS in `globals.css` |
-| Cursor-repelling dot background | `reference/repeleffect.md` | `components/background/DotBackground.tsx` |
+| Repel dot background | `reference/repeleffect.md` | `components/background/DotBackground.tsx` |
+| AI loading indicator | `reference/ailoading.md` | `components/chat/AiLoading.tsx` |
+| Floating navigation pill | `reference/navbar.md` | `components/layout/NavBar.tsx` |
 
-**Instructions**
-1. Read both files fully before coding any UI.
-2. Keep the original logic and visual result. Only adapt it to React/Next.js/TypeScript (for example: `useEffect` for canvas setup and cleanup, `"use client"` at the top).
-3. If the reference code is plain HTML/CSS/JS, convert it. Do not change how it looks or feels.
-4. If the liquid glass code uses SVG filters (for example `feTurbulence` / `feDisplacementMap`), put the filter definition once in `layout.tsx` and reuse it. Note: SVG-filter glass works best in Chromium browsers. Add a **fallback** (plain `backdrop-filter: blur()` glass) for Safari/Firefox.
-5. Every glass surface in the app must use `GlassPanel` (or the same CSS class). Do not make one-off glass styles.
+*(Note: `reference/liquidglass.md` is retired; all cards use clean frosted glassmorphism).*
 
-## 3. Background
+## 3. Background Dots
 
-- `DotBackground` is **fixed**, full screen, behind everything (`z-index: 0`, `pointer-events: none` on the wrapper, but it listens to mouse movement on `window`).
-- Dots are a soft gray on an off-white page.
-- Dots move away from the cursor and ease back.
-- **Performance:** use `requestAnimationFrame`, handle window resize, clean up on unmount, cap device pixel ratio at 2.
-- **Accessibility:** if `prefers-reduced-motion` is on, show static dots (no repel animation).
-- **Touch devices:** use touch position if the reference supports it. If not, show static dots.
+- `DotBackground` is **fixed**, full screen, behind everything (`z-index: 0`, `pointer-events: none`).
+- Dot color: `#000000` at `0.18` opacity (`rgba(0, 0, 0, 0.18)`).
+- Dot radius: `1.5px` (diameter 3px).
+- Dot spacing: `40px` (soft, light, quiet grid).
+- Repel physics: dots smoothly move away from cursor and spring back into position.
+- **Accessibility:** `prefers-reduced-motion` renders static dots (no animation).
+- **Touch devices:** tracks touch moves smoothly.
 
-## 4. Design tokens (put in `globals.css` as CSS variables)
+## 4. Glass Design Tokens
 
 ```css
 :root {
   /* Surfaces */
-  --bg-base: #faf9f7;            /* off-white page */
-  --bg-soft: #f3f1ed;
-  --glass-fill: rgba(255, 255, 255, 0.45);
-  --glass-fill-strong: rgba(255, 255, 255, 0.70);
-  --glass-border: rgba(255, 255, 255, 0.70);
-  --glass-border-dim: rgba(0, 0, 0, 0.06);
-  --glass-blur: 18px;
-  --glass-shadow: 0 8px 32px rgba(40, 40, 60, 0.08);
+  --bg-page: #ffffff;            /* pure white page only */
+  --glass-card: rgba(255, 255, 255, 0.28);
+  --glass-card-text: rgba(255, 255, 255, 0.36);
+  --glass-border: rgba(255, 255, 255, 0.85);
+  --glass-ring: rgba(0, 0, 0, 0.05);
+  --glass-shadow: 0 6px 24px rgba(30, 30, 50, 0.08);
 
   /* Text */
   --text-primary: #1f1f23;
   --text-secondary: #5b5b66;
-  --text-muted: #8c8c97;
+  --text-muted: #71717a;
 
-  /* Accents (very subtle) */
-  --accent: #2b2b33;             /* near-black for buttons */
+  /* Accents */
+  --accent: #2b2b33;
   --accent-soft: rgba(43, 43, 51, 0.08);
   --danger: #c0392b;
   --success: #2f8f5b;
 
   /* Dots */
-  --dot-color: rgba(120, 120, 135, 0.35);
-
-  /* Shape */
-  --radius-lg: 24px;
-  --radius-md: 16px;
-  --radius-sm: 10px;
+  --dot-color: #000000;
+  --dot-opacity: 0.18;
+  --dot-radius: 1.5px;
+  --dot-spacing: 40px;
 }
 ```
 
-The tokens above are defaults. If `liquidglass.md` uses different values, **the reference file wins**.
-
 ## 5. Typography
 
-- Font: **Inter** (via `next/font`). Fallback: system sans-serif.
-- Headings: weight 600, tight letter spacing.
-- Body: 15–16px, line height 1.6.
-- Chat answers: 15px, line height 1.65, max width ~70 characters per line for easy reading.
-- Text on glass must always be dark (`--text-primary`) for contrast. Keep contrast ratio at least 4.5:1.
+- **Logo**: `Playwrite Argentina` (`Playwrite_AR`).
+- **Headings**: `Space Grotesk` (weights 500, 600, 700).
+- **Main writing font** (body text, chat messages, buttons, inputs, labels, placeholders): `Titillium Web` (weights 400, 600, 700).
+- Form elements inherit `font-family: inherit`.
+- Chat answers: 15–16px, line height ≥ 1.6.
 
 ## 6. Layout
 
@@ -85,42 +74,44 @@ The tokens above are defaults. If `liquidglass.md` uses different values, **the 
 
 ```
 ┌──────────────────────────────────────────────────────────┐
-│  [dot background fills the whole screen]                 │
+│  [dot background fills whole screen behind cards]        │
+│                                                          │
+│              [ NavBar: New chat | Docs | How it works ]  │
 │                                                          │
 │  ┌────────────┐  ┌────────────────────────────────────┐  │
 │  │  SIDEBAR   │  │   CHAT PANEL                       │  │
-│  │  (glass)   │  │   (glass)                          │  │
-│  │            │  │                                    │  │
 │  │  DocuMind  │  │   messages scroll here             │  │
-│  │  logo      │  │                                    │  │
-│  │            │  │                                    │  │
-│  │  [Upload]  │  │                                    │  │
-│  │  Doc list  │  │   ┌──────────────────────────┐     │  │
-│  │            │  │   │  Ask a question…   [↑]   │     │  │
-│  └────────────┘  └───┴──────────────────────────┴─────┘  │
+│  │  logo card │  │                                    │  │
+│  │  [Upload]  │  │   ┌──────────────────────────┐     │  │
+│  │  Doc list  │  │   │  Ask a question…   [↑]   │     │  │
+│  │  Session   │  │   └──────────────────────────┘     │  │
+│  └────────────┘  └────────────────────────────────────┘  │
 └──────────────────────────────────────────────────────────┘
 ```
 
-- Sidebar: ~320px wide. Chat panel: fills the rest. 24px gap and 24px outer margin.
-- Both panels are full height (`100dvh` minus margins).
+- **Top Bar**: Floating pill `NavBar` centered at top.
+- **Sidebar**: ~350px wide, container has `p-4` padding on all sides so card borders/shadows never clip.
+- **Chat Panel**: Fills remaining space with generous padding.
+- **Question Box**: Single rounded glass card with no `overflow: hidden`, padding 16px, seamless transparent textarea.
 
 ### Mobile (< 1024px)
 
-- Chat panel is full screen.
-- Sidebar becomes a slide-in glass drawer, opened by a "Documents" button in the top bar.
-- Chat input sticks to the bottom and respects the safe area (`env(safe-area-inset-bottom)`).
+- Top bar with logo on left and compact `NavBar` pill on right.
+- "Documents" button opens/closes sidebar drawer.
+- Chat input respects safe area with ample padding.
 
 ## 7. Components
 
 | Component | Description |
 |---|---|
-| `GlassPanel` | Base glass surface. Props: `className`, `strong?` (more opaque), `children`. |
-| `GlassButton` | Pill or rounded button. Primary = dark fill, white text. Secondary = glass. Hover: slight lift. Disabled: 50% opacity. |
-| `GlassInput` | Text area with glass look. Auto-grows to 5 lines. `Enter` sends, `Shift+Enter` = new line. |
-| `UploadZone` | Dashed light border area. Drag over → glass brightens. Shows file name and progress steps while processing. |
-| `DocumentList` | Each item: PDF icon, file name (ellipsis), "12 pages", delete button. Delete asks for confirm. |
-| `MessageBubble` | **User:** right side, `--glass-fill-strong`. **Assistant:** left side, lighter glass. Render markdown (bold, lists, code). |
-| `AiLoading` | Animated thinking indicator cycling status messages with shimmering gradient text before the first token arrives. |
+| `NavBar` | Floating pill navbar with 3 items: "New chat" (inline confirm), "Documents" (mobile toggle / desktop scroll), and "How it works" (4-step modal). |
+| `GlassPanel` | Base frosted glass surface (`rgba(255,255,255,0.28)`, `blur(20px) saturate(140%)`, `border: 1px solid rgba(255,255,255,0.85)`). |
+| `GlassButton` | Primary = dark fill (#2b2b33), white text. Secondary = glass. Hover: slight lift. |
+| `GlassInput` | Seamless transparent textarea, hidden scrollbar, auto-grows up to 5 lines. |
+| `UploadZone` | Glass card with drag-and-drop affordance, progress steps, and validation. |
+| `DocumentList` | Separate glass card per file: PDF icon, filename, page count, inline delete confirm. |
+| `MessageBubble` | **User:** right side. **Assistant:** left side, markdown rendered, copy button on hover. |
+| `AiLoading` | Shimmering monochrome text cycling status messages (`reference/ailoading.md`) before the first token arrives. |
 
 ## 8. States (build all of them)
 
@@ -140,12 +131,13 @@ The tokens above are defaults. If `liquidglass.md` uses different values, **the 
 
 - Message appears: fade + 8px slide up, 200ms.
 - Buttons: 150ms transitions.
-- Panel entrance on load: fade + slight scale from 0.98, 400ms.
+- Panels entrance on load: fade + slight scale from 0.98, 400ms.
 - Respect `prefers-reduced-motion` everywhere.
 
 ## 10. Accessibility checklist
 
 - All buttons have `aria-label` where there is only an icon.
-- Visible keyboard focus ring (soft dark outline).
+- Visible keyboard focus ring (soft dark outline / focus-visible ring).
 - Chat messages container uses `aria-live="polite"`.
+- Modals close on `Escape` key and backdrops.
 - Color is never the only signal (use icons + text for errors).

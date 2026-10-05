@@ -64,6 +64,7 @@ documind/
         │   ├── ui/GlassButton.tsx
         │   ├── ui/GlassInput.tsx
         │   ├── layout/Sidebar.tsx
+        │   ├── layout/NavBar.tsx
         │   ├── documents/UploadZone.tsx
         │   ├── documents/DocumentList.tsx
         │   ├── chat/ChatWindow.tsx
