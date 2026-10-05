@@ -6,7 +6,7 @@ import React, { useEffect, useRef, useState } from "react";
 import type { ChatMessage } from "@/lib/types";
 import { GlassButton } from "@/components/ui/GlassButton";
 import { MessageBubble } from "@/components/chat/MessageBubble";
-import { TypingIndicator } from "@/components/chat/TypingIndicator";
+import { AiLoading } from "@/components/chat/AiLoading";
 import { ChatInput } from "@/components/chat/ChatInput";
 
 export interface ChatWindowProps {
@@ -152,7 +152,7 @@ export function ChatWindow({
 
             {isThinking && (
               <div className="flex justify-start">
-                <TypingIndicator />
+                <AiLoading />
               </div>
             )}
           </>

@@ -100,6 +100,11 @@ Logic for `sendMessage(question)`:
 - While streaming, the send button becomes a Stop button.
 - Disabled when there are no ready documents.
 
+### `AiLoading`
+- Cycles status messages with a shimmering gradient text effect (`reference/ailoading.md`) using site monochrome palette (black, dark gray, soft gray).
+- Appears on the left side where the assistant answer will appear from the moment the user sends a question until the first answer text arrives.
+- Hides when the first token arrives, when Stop is pressed, and on error. Never shows at any other time.
+
 ## 7. Layout wiring (`app/page.tsx`)
 
 - Render `DotBackground` once at the top.

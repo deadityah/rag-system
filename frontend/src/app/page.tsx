@@ -349,7 +349,7 @@ export default function Home() {
               onClick={() => loadPresetState("thinking")}
               className="rounded-full px-3 py-1 text-[11px] font-medium text-[#1f1f23] hover:bg-white/50 transition-colors"
             >
-              Thinking Dot
+              AI Loading
             </button>
             <button
               onClick={() => loadPresetState("not-found")}

@@ -69,7 +69,7 @@ documind/
         │   ├── chat/ChatWindow.tsx
         │   ├── chat/MessageBubble.tsx
         │   ├── chat/ChatInput.tsx
-        │   └── chat/TypingIndicator.tsx
+        │   └── chat/AiLoading.tsx
         ├── hooks/
         │   ├── useSession.ts      # anonymous session id
         │   ├── useDocuments.ts

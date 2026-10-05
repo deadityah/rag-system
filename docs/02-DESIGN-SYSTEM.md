@@ -120,7 +120,7 @@ The tokens above are defaults. If `liquidglass.md` uses different values, **the 
 | `UploadZone` | Dashed light border area. Drag over → glass brightens. Shows file name and progress steps while processing. |
 | `DocumentList` | Each item: PDF icon, file name (ellipsis), "12 pages", delete button. Delete asks for confirm. |
 | `MessageBubble` | **User:** right side, `--glass-fill-strong`. **Assistant:** left side, lighter glass. Render markdown (bold, lists, code). |
-| `TypingIndicator` | Three soft pulsing dots before the first token arrives. |
+| `AiLoading` | Animated thinking indicator cycling status messages with shimmering gradient text before the first token arrives. |
 
 ## 8. States (build all of them)
 
@@ -130,7 +130,7 @@ The tokens above are defaults. If `liquidglass.md` uses different values, **the 
 | Uploading | Steps: "Reading pages…" → "Understanding text…" → "Ready". |
 | Upload failed | Red-tinted small message with reason (too big, not a PDF, too many pages). |
 | Documents ready, no messages | Suggestion chips: "Summarize this document", "What are the key points?", "List important dates or numbers". |
-| Waiting for first token | `TypingIndicator`. |
+| Waiting for first token | `AiLoading`. |
 | Streaming | Text appears live. Auto-scroll to bottom unless user scrolled up. Show a "Stop" button. |
 | Answer not found in docs | Normal message (not an error) saying the documents do not contain it. |
 | Backend sleeping (cold start) | After 4 seconds of waiting, show: "Waking up the server, this can take up to a minute…" |
