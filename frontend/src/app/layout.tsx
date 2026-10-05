@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
 
 export const metadata: Metadata = {
   title: "DocuMind — Chat with your documents",
@@ -16,7 +19,78 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.variable} font-sans antialiased`}>
+        {/* Shared SVG displacement filters from reference/liquidglass.md */}
+        <svg aria-hidden="true" className="pointer-events-none fixed -top-[9999px] -left-[9999px] h-0 w-0 opacity-0" focusable={false}>
+          <title>Liquid Glass Effect Filter</title>
+          <defs>
+            <filter
+              id="documind-glass-filter"
+              colorInterpolationFilters="sRGB"
+              height="200%"
+              width="200%"
+              x="-50%"
+              y="-50%"
+            >
+              <feTurbulence
+                baseFrequency="0.05 0.05"
+                numOctaves="1"
+                result="turbulence"
+                seed="1"
+                type="fractalNoise"
+              />
+              <feGaussianBlur
+                in="turbulence"
+                result="blurredNoise"
+                stdDeviation="2"
+              />
+              <feDisplacementMap
+                in="SourceGraphic"
+                in2="blurredNoise"
+                result="displaced"
+                scale="30"
+                xChannelSelector="R"
+                yChannelSelector="B"
+              />
+              <feGaussianBlur in="displaced" result="finalBlur" stdDeviation="4" />
+              <feComposite in="finalBlur" in2="finalBlur" operator="over" />
+            </filter>
+            <filter
+              id="documind-glass-button-filter"
+              colorInterpolationFilters="sRGB"
+              height="200%"
+              width="200%"
+              x="-50%"
+              y="-50%"
+            >
+              <feTurbulence
+                baseFrequency="0.05 0.05"
+                numOctaves="1"
+                result="turbulence"
+                seed="1"
+                type="fractalNoise"
+              />
+              <feGaussianBlur
+                in="turbulence"
+                result="blurredNoise"
+                stdDeviation="2"
+              />
+              <feDisplacementMap
+                in="SourceGraphic"
+                in2="blurredNoise"
+                result="displaced"
+                scale="70"
+                xChannelSelector="R"
+                yChannelSelector="B"
+              />
+              <feGaussianBlur in="displaced" result="finalBlur" stdDeviation="4" />
+              <feComposite in="finalBlur" in2="finalBlur" operator="over" />
+            </filter>
+          </defs>
+        </svg>
+
+        {children}
+      </body>
     </html>
   );
 }
