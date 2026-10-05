@@ -49,3 +49,6 @@ yarn-error.log*
 Thumbs.db
 .vscode/
 .idea/
+
+# Private local test files
+nothingimp/

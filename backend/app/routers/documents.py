@@ -1,6 +1,6 @@
 import logging
 from typing import List, Optional
-from fastapi import APIRouter, Depends, File, Header, HTTPException, UploadFile, status
+from fastapi import APIRouter, Depends, File, Header, HTTPException, Request, UploadFile, status
 
 from app.models import DocumentResponse
 from app.services.chunker import chunk_document
@@ -41,9 +41,14 @@ MAX_DOCUMENTS_PER_SESSION = 5
 
 
 def get_session_id(
+    request: Request,
     x_session_id: Optional[str] = Header(None, alias="X-Session-Id"),
 ) -> str:
-    """Extracts and validates X-Session-Id header. Missing header yields 400."""
+    """Extracts and validates X-Session-Id header. Missing header yields 400.
+    Bypasses validation on OPTIONS requests (CORS preflight requests do not carry custom headers).
+    """
+    if request.method == "OPTIONS":
+        return ""
     if not x_session_id or not x_session_id.strip():
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

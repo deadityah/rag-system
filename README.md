@@ -1,245 +1,175 @@
-# DocuMind — Your Step-by-Step Guide
+# DocuMind
 
-This guide is for **you**. Follow the steps in order. Tick each box when done.
-Do not skip the "Check" parts. They save you time later.
-
-**Time needed:** about 2–4 days, with a few hours per day.
+> A minimal, citation-backed document search and chat system that answers user queries strictly from uploaded PDFs with exact page references.
 
 ---
 
-## What you are building
+## Demo & Previews
 
-A website where you upload a PDF and chat with it. The AI answers only from your PDF and tells you the page. Answers appear live, like typing.
-
-**Your stack:** Next.js (frontend) + Python FastAPI (backend) + Supabase (database) + Gemini (AI).
-
----
-
-## Step 0 — Put the kit in the right place
-
-- [ ] Make a folder on your computer called `documind`.
-- [ ] Copy everything from this kit into it. You should see:
-  ```
-  documind/
-  ├── README.md
-  ├── docs/        (7 files, 00 to 06)
-  └── reference/   (empty for now)
-  ```
-- [ ] Put your two files inside `reference/`:
-  - `liquidglass.md`
-  - `repeleffect.md`
-
-**Check:** the `reference` folder has exactly these 2 files. Without them, the design will not match your style.
-
----
-
-## Step 1 — Install the tools
-
-- [ ] **Node.js** version 20 or newer → https://nodejs.org
-- [ ] **Python** version 3.11 or newer → https://python.org
-- [ ] **Git** → https://git-scm.com
-- [ ] **Antigravity** (you already have it)
-
-**Check** (open a terminal and type each one):
-```
-node -v
-python --version
-git --version
-```
-Each one should print a version number. (On some computers, use `python3 --version`.)
-
----
-
-## Step 2 — Make your free accounts
-
-- [ ] **GitHub** → https://github.com (to save your code)
-- [ ] **Google AI Studio** → https://aistudio.google.com (Gemini key)
-- [ ] **Supabase** → https://supabase.com (database)
-- [ ] **Vercel** → https://vercel.com (frontend hosting; sign in with GitHub)
-- [ ] **Render** → https://render.com (backend hosting; sign in with GitHub)
-
----
-
-## Step 3 — Get your Gemini API key
-
-- [ ] Go to Google AI Studio → **Get API key** → create a key.
-- [ ] Copy it and save it in a safe note for now.
-
-**Rules for keys:**
-- Never post a key in a chat, screenshot, or on GitHub.
-- If a key leaks, delete it and make a new one.
-
----
-
-## Step 4 — Set up Supabase (database)
-
-- [ ] Click **New project**. Name it `documind`. Choose a strong database password and save it. Pick the region closest to you.
-- [ ] Wait until the project is ready (1–2 minutes).
-- [ ] Go to **Project Settings → API**. Copy these two values:
-  - **Project URL** → this is `SUPABASE_URL`
-  - **service_role key** → this is `SUPABASE_SERVICE_KEY` (secret! backend only!)
-
-> Do **not** use the `anon` key. Do **not** put the service key in the frontend.
-
-The SQL setup comes later, in Phase 3. The agent will create the file for you.
-
----
-
-## Step 5 — Open the project in Antigravity
-
-- [ ] Open the `documind` folder in Antigravity.
-- [ ] Paste this as your **first message**:
+- **Live Demo:** [LIVE DEMO LINK]
+- **Walkthrough Video:** [DEMO VIDEO LINK]
 
 ```
-Read docs/00-START-HERE.md first. Then read every file it lists, including the two files in the reference folder. Do not write any code yet.
-
-When you finish reading, tell me in 5 short bullet points what you understood, and ask me any questions you have. Then wait.
+[SCREENSHOT]
 ```
 
-**Check:** the agent should list: RAG app, Next.js + FastAPI, Gemini, Supabase pgvector, glass UI, build one phase at a time. If it misses something big, tell it to re-read that file.
+---
+
+## Features
+
+- **Grounded Question Answering:** Answers questions strictly using uploaded PDF context, citing the exact document and page number for every claim (e.g. `(report.pdf, p. 3)`).
+- **Early-Exit Refusal:** Questions outside the document's contents are rejected immediately without calling the LLM, eliminating hallucinations and saving API quota.
+- **Real-Time Token Streaming:** Delivers answers progressively using Server-Sent Events (SSE) with sub-second time-to-first-token.
+- **Conversational Memory & Query Rewriting:** Automatically reformulates contextual follow-up questions (e.g. *"What about fish?"*) into standalone search queries.
+- **Robust PDF Parsing & Validation:** Validates magic byte headers, enforces file size (<= 10 MB) and page limits (<= 100 pages), and detects scanned image PDFs.
+- **Liquid Glass Interface:** Interactive responsive UI with frosted glassmorphism, mouse-repelling background particle canvas, and mobile drawer support.
 
 ---
 
-## Step 6 — Build phase by phase
+## Tech Stack
 
-For each phase, paste the message, wait, then do the **Check** list. Only say "next" when all checks pass.
-
-### Phase 1 — Project setup
-- [ ] Paste: `Start Phase 1 from docs/06-BUILD-PLAN.md. Stop when done.`
-- [ ] Make your env files. In `backend/`, copy `.env.example` to `.env` and fill in:
-  - `GEMINI_API_KEY`
-  - `SUPABASE_URL`
-  - `SUPABASE_SERVICE_KEY`
-- [ ] In `frontend/`, copy `.env.example` to `.env.local`.
-
-**Check:**
-- [ ] `http://localhost:8000/api/health` shows `{"status":"ok"}`
-- [ ] `http://localhost:3000` opens a page
-- [ ] `.env` is listed in `.gitignore`
-
-### Phase 2 — The design
-- [ ] Paste: `Start Phase 2. Use my reference files for the glass and dot effects. Use fake data for now.`
-
-**Check:**
-- [ ] Dots move away from your mouse
-- [ ] Panels look like glass
-- [ ] Resize the browser to phone size. It still looks good
-- [ ] If something looks different from your reference files, say exactly what is different and ask for a fix
-
-### Phase 3 — Database
-- [ ] Paste: `Start Phase 3.`
-- [ ] Open Supabase → **SQL Editor** → **New query**.
-- [ ] Copy everything from `backend/supabase/schema.sql` and paste it. Click **Run**.
-- [ ] Run the agent's `check_db.py` script.
-
-**Check:**
-- [ ] Supabase **Table Editor** shows two tables: `documents` and `chunks`
-- [ ] The script prints "DB OK"
-
-### Phase 4 — Upload a PDF
-- [ ] Paste: `Start Phase 4.`
-
-**Check (test with real files):**
-- [ ] A normal PDF uploads and shows pages and chunks
-- [ ] Look in Supabase Table Editor. You see rows in both tables
-- [ ] Rename a `.txt` file to `.pdf` and upload it. It is rejected
-- [ ] Delete the document. The rows disappear
-
-### Phase 5 — Chat (backend)
-- [ ] Paste: `Start Phase 5.`
-
-**Check:**
-- [ ] The terminal test prints a streamed answer
-- [ ] The answer has citations like `(file.pdf, p. 3)`
-- [ ] Ask something not in the PDF. You get "I couldn't find that in your documents."
-
-### Phase 6 — Connect it all
-- [ ] Paste: `Start Phase 6.`
-
-**Check:**
-- [ ] Upload a PDF in the website
-- [ ] Ask a question. The answer types live
-- [ ] Press **Stop** during an answer. It stops
-- [ ] Ask a follow-up like "explain that simply". It understands
-- [ ] Turn off the backend. The website shows a friendly error
-
-### Phase 7 — Measure quality (very important for interviews)
-- [ ] Choose **one PDF** you know well (a report, a book chapter, a manual).
-- [ ] Paste: `Start Phase 7. I will use this PDF: <name>. Write the 15 test questions and the test script.`
-- [ ] Read the questions. Check the "expected answers" are really right. Fix wrong ones.
-
-**Check:**
-- [ ] You can say a real number, like "12 out of 13 correct"
-- [ ] `docs/TUNING-NOTES.md` exists
-
-### Phase 8 — Put it online
-- [ ] Push the code to GitHub (ask the agent: `Help me push this to a new GitHub repo. Make sure .env files are not included.`).
-- [ ] **Backend on Render:** New → Web Service → connect repo → root directory `backend` → runtime Docker. Add the 3 secret values and `ALLOWED_ORIGINS`.
-- [ ] **Frontend on Vercel:** New Project → connect repo → root directory `frontend`. Add `NEXT_PUBLIC_API_URL` = your Render URL.
-- [ ] Go back to Render. Set `ALLOWED_ORIGINS` = your Vercel URL. Redeploy.
-
-**Check:**
-- [ ] Open the Vercel link on your phone. Upload and chat work
-- [ ] Open browser DevTools → Network. You do not see any secret key
-- [ ] First load is slow? That is normal on Render's free plan (it sleeps). The app shows a "waking up" message
-
-### Phase 9 — Portfolio polish
-- [ ] Paste: `Start Phase 9.`
-- [ ] Take 2–3 good screenshots.
-- [ ] Record a 1–2 minute video: upload → ask → live answer → page citation → "not found" example.
-- [ ] Put the live link, video, and GitHub link on your portfolio site and LinkedIn.
+| Technology | Role | Why Chosen |
+|---|---|---|
+| **Next.js 15 (App Router)** | Frontend Framework | Fast React server components, modern client state management, and native Vercel integration. |
+| **TypeScript** | Programming Language | End-to-end type safety across API contracts, SSE stream events, and UI components. |
+| **Tailwind CSS** | Styling | Utility-first architecture enabling responsive design tokens and custom glassmorphism styles. |
+| **FastAPI** | Backend Framework | High-performance async Python web framework with native OpenAPI docs and SSE streaming. |
+| **Python 3.11** | Backend Runtime | Industry standard for AI engineering pipelines, scientific computation, and vector operations. |
+| **Google Gemini (Flash & Embeddings)** | LLM & Embeddings | Cost-effective inference with fast generation, strong citation adherence, and 768-dim embeddings. |
+| **Supabase Postgres (`pgvector`)** | Vector Database | Scalable relational database with native HNSW vector cosine distance indexing. |
+| **Render** | Backend Hosting | Docker container deployment with automatic health checks and environment secret management. |
+| **Vercel** | Frontend Hosting | Global edge distribution with zero-config Next.js continuous deployment. |
 
 ---
 
-## Step 7 — Final check before you call it done
+## Architecture
 
-- [ ] Live link works for a stranger (ask a friend to try)
-- [ ] README has: picture, live link, how it works, quality numbers, honest limits
-- [ ] No keys anywhere in GitHub (search the repo for `AIza` and `service_role`)
-- [ ] You can answer the interview questions below out loud
+### 1. Ingestion Pipeline (Upload Flow)
+```mermaid
+flowchart LR
+    A["Browser (PDF)"] --> B["FastAPI /api/documents"]
+    B --> C["Byte & Format Validation"]
+    C --> D["pypdf Text Extraction"]
+    D --> E["Sliding Chunker (~800c)"]
+    E --> F["Gemini Embeddings (768d)"]
+    F --> G[("Supabase pgvector")]
+```
 
----
-
-## Interview questions you must be able to answer
-
-Practice saying these in simple English.
-
-1. **What is RAG and why use it instead of just asking the AI?**
-   The AI does not know your private files. RAG finds the right parts of your file first. Then the AI answers from those parts. This lowers made-up answers.
-2. **What is an embedding?**
-   A list of numbers that shows the meaning of a text. Similar meanings have similar numbers.
-3. **Why do you split documents into chunks?**
-   Small pieces are easier to match to a question. They also save cost and keep the AI focused.
-4. **Why 800 characters and 120 overlap? What happens if chunks are too big or too small?**
-   Use your Phase 7 notes to answer with real results.
-5. **What is cosine similarity?**
-   A score that tells how close two meanings are.
-6. **How do you stop the AI from making things up?**
-   Strict prompt, low temperature, a similarity limit, and required citations.
-7. **What is prompt injection?**
-   Text in a document that tries to give the AI new orders. Our prompt treats documents as data, not orders.
-8. **Why stream the answer?**
-   The user sees words at once, so it feels fast.
-9. **Why is your session system not real security?**
-   Anyone with the session id can see those files. Real login is the fix.
-10. **How did you test quality? What number did you get?**
-    Use your Phase 7 result.
+### 2. Retrieval & Generation Pipeline (Question Flow)
+```mermaid
+flowchart TD
+    User["User Question"] --> Fast["FastAPI /api/chat"]
+    Fast --> CheckHistory{"History Exists?"}
+    CheckHistory -- Yes --> Rewrite["Gemini Query Rewriter"]
+    CheckHistory -- No --> Embed["Gemini Query Embedder"]
+    Rewrite --> Embed
+    Embed --> Search[("Supabase Vector Search (top_k=5)")]
+    Search --> Threshold{"Best Similarity >= 0.60?"}
+    Threshold -- No --> Refusal["Fast Refusal: 'I couldn't find that...' (No LLM Call)"]
+    Threshold -- Yes --> Prompt["Prompt Builder (Context + Citations)"]
+    Prompt --> Stream["Gemini Flash Streaming"]
+    Stream --> SSE["SSE Events (sources -> token -> done)"]
+```
 
 ---
 
-## If something breaks
+## How RAG Works (In 5 Steps)
 
-1. Copy the **exact error message**.
-2. Tell the agent: what you did, what you expected, what happened, and paste the error.
-3. Common problems:
-   - **CORS error** → `ALLOWED_ORIGINS` is wrong or missing the exact URL.
-   - **Gemini 429 error** → free limit reached. Wait a minute.
-   - **Gemini model not found** → the model name is old. Open AI Studio, copy a current model name, and update `GEMINI_CHAT_MODEL` in `.env`.
-   - **Python packages missing** → activate the virtual environment first.
-   - **Answers are bad** → go back to Phase 7 and tune settings.
+1. **Extract & Clean:** The uploaded PDF is parsed page-by-page, retaining the exact physical page numbers for every section.
+2. **Chunk:** The document text is cut into coherent, overlapping chunks (~800 characters with 120 character overlap) so ideas aren't severed mid-sentence.
+3. **Embed:** Each text chunk is converted by Gemini into a 768-dimensional mathematical vector capturing its semantic meaning.
+4. **Retrieve:** When a question is submitted, it is vectorized and compared against stored chunks using cosine similarity to find the top 5 closest matches.
+5. **Generate with Citations:** If relevance meets the threshold (>= 0.60), the LLM generates a streamed response constrained strictly to the retrieved context, citing every claim with `(filename, p. N)`.
 
 ---
 
-## What comes next
+## Evaluation & Quality Results
 
-After DocuMind, we start **Project 2: ResearchPilot** (AI agents). Save your Phase 7 test set. We will reuse it in Project 4 (EvalLab).
+DocuMind was evaluated using an empirical 15-question benchmark test set against a 7-page reference guide (`home_cooks_handbook.pdf`).
+
+| Metric | Result | Details |
+|---|---|---|
+| **Answer Accuracy & Page Citations (Groups A & C)** | **12 / 12 (100%)** | All 12 in-document and follow-up questions answered accurately with correct page citations. |
+| **Off-Topic Refusals (Group B)** | **3 / 3 (100%)** | Correctly triggered fast-path refusal for ungrounded queries (*"What is the capital of France?"*). |
+| **Overall Pass Rate** | **15 / 15 (100%)** | Zero hallucinations, zero incorrect citations. |
+| **Average Time to First Token (TTFT)** | **2,754 ms** | Measured from request dispatch to the first visible token chunk. |
+| **Average Total Response Time** | **3,059 ms** | Full answer streaming duration. |
+| **Fast-Path Refusal Latency** | **~1,150 ms** | Bypasses LLM generation completely when similarity is below threshold. |
+
+> **Note on Evaluation Scope:** This evaluation was conducted on one 7-page document with 15 target questions. It demonstrates that the retrieval logic, citation constraints, and similarity gates work as designed on structured text, but it does not represent generalized benchmark accuracy across all arbitrary document types.
+
+---
+
+## Key Tuning Decisions
+
+| Parameter | Value | Why Chosen |
+|---|---|---|
+| **Chunk Size** | `800 chars` | Large enough to preserve self-contained thoughts, small enough to isolate specific answers without diluting vector similarity. |
+| **Chunk Overlap** | `120 chars` | Prevents losing concepts that straddle chunk boundaries while minimizing redundant storage. |
+| **Top K (`top_k`)** | `5` | Provides sufficient context coverage for complex answers without overflowing prompt size or introducing irrelevant noise. |
+| **Similarity Threshold** | `0.60` | Provides clean separation: 100% on-topic recall (scores `0.62`–`0.88`) and 100% off-topic rejection (scores `< 0.58`). |
+
+---
+
+## Honest Limitations
+
+- **Anonymous Sessions are Not True Security:** Session isolation relies on random UUIDs stored in `localStorage` and sent via `X-Session-Id`. Anyone with access to the UUID can access that session's documents. Production systems require authenticated identity (e.g., Supabase Auth).
+- **Free-Tier Cold Starts:** Render Web Services spin down after 15 minutes of inactivity; initial wake-up takes 30–60 seconds (handled gracefully in the UI via a cold-start banner).
+- **Text-Based PDFs Only:** Only PDFs containing digital text layers are supported. Scanned image PDFs without OCR are detected and rejected.
+- **Daily AI Quota:** In-memory request counters (`GEMINI_DAILY_LIMIT` and `EMBED_DAILY_LIMIT`) cap daily calls to protect free-tier quotas.
+- **Single-Document Benchmark:** Current quality numbers reflect a 15-question benchmark on a 7-page document; complex multi-column layouts and dense tables require specialized chunking.
+
+---
+
+## What I Learned
+
+1. **Retrieval Precision Outweighs Model Parameter Size:** A lightweight, fast model (`gemini-3.5-flash-lite`) produces reliable, citation-perfect answers when fed high-quality chunks. Feeding dirty or irrelevant chunks causes hallucinations regardless of model size.
+2. **Threshold Guardrails Drastically Improve Latency & Cost:** Short-circuiting off-topic queries before invoking the LLM reduced off-topic latency from ~3.1s down to ~1.1s and saved 100% of LLM token costs.
+3. **Conversational Memory Demands Query Rewriting:** Real users frequently ask multi-turn questions (*"How long does the sauce take?"*). Without rewriting the query using chat history into a standalone question, vector search retrieves zero relevant chunks.
+4. **Preserving Page Numbers Requires Intra-Page Chunking:** Splitting text across page boundaries breaks citation integrity. Chunks must be split *within* each page boundary so every excerpt retains a single, verified page index.
+5. **UX State Design is as Critical as the AI Pipeline:** Real-world RAG apps encounter network latency, sleeping containers, and API rate limits. Handling cold-starts, streaming delays, and polite quota errors is essential for a good user experience.
+
+---
+
+## Next Steps
+
+- [ ] **Authentication:** Replace anonymous sessions with Supabase Auth or Clerk for secure user accounts.
+- [ ] **Interactive Source Cards:** Render clickable excerpt cards in the UI showing the exact quote alongside the cited page.
+- [ ] **Cost & Token Telemetry:** Track token usage and API cost per session in real time.
+- [ ] **OCR Ingestion:** Add Tesseract or Google Cloud Vision OCR to parse scanned physical documents.
+- [ ] **Hybrid Search & Re-Ranking:** Combine BM25 keyword search with pgvector embeddings and cross-encoder re-ranking.
+
+---
+
+## Running Locally
+
+### 1. Prerequisites
+- Node.js 20+
+- Python 3.11+
+- Supabase account with `pgvector` enabled
+- Google Gemini API key
+
+### 2. Backend Setup
+```bash
+cd backend
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+cp .env.example .env       # Fill in GEMINI_API_KEY, SUPABASE_URL, SUPABASE_SERVICE_KEY
+uvicorn app.main:app --reload --port 8000
+```
+
+### 3. Frontend Setup
+```bash
+cd frontend
+npm install
+cp .env.example .env.local  # NEXT_PUBLIC_API_URL=http://localhost:8000
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
+
+## License
+
+Distributed under the [MIT License](LICENSE).

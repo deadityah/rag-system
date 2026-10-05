@@ -31,15 +31,16 @@ class Settings(BaseSettings):
     @property
     def cors_origins(self) -> List[str]:
         """Parse comma-separated allowed origins into a list for CORS middleware.
-        Strips whitespace and trailing slashes so variations like 'https://example.com/' match.
+        Strips whitespace, surrounding quotes, and trailing slashes so variations like 'https://example.com/' match.
         """
-        if not self.allowed_origins:
+        raw = self.allowed_origins.strip().strip("'\"") if self.allowed_origins else ""
+        if not raw:
             return ["http://localhost:3000"]
-        origins = [
-            origin.strip().rstrip("/")
-            for origin in self.allowed_origins.split(",")
-            if origin.strip()
-        ]
+        origins = []
+        for origin in raw.split(","):
+            cleaned = origin.strip().strip("'\"").rstrip("/")
+            if cleaned:
+                origins.append(cleaned)
         return origins if origins else ["http://localhost:3000"]
 
 
