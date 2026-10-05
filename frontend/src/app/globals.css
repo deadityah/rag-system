@@ -11,7 +11,7 @@
   --bg-soft: #ffffff;
 
   /* Liquid Glass Section Tokens */
-  --glass-section-tint: rgba(255, 255, 255, 0.10);  /* at most 0.12 */
+  --glass-section-tint: rgba(255, 255, 255, 0.10);
   --glass-section-blur: 24px;
   --glass-section-saturate: 160%;
 
@@ -44,10 +44,44 @@
 body {
   background-color: #ffffff;
   color: var(--text-primary);
+  font-family: var(--font-body), system-ui, -apple-system, sans-serif;
   min-height: 100vh;
   min-height: 100dvh;
   overflow-x: hidden;
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* Headings use Space Grotesk */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading), system-ui, -apple-system, sans-serif;
+}
+
+/* Form controls must inherit body font (Titillium Web) */
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+/* Logo font class (Playwrite Argentina) */
+.font-logo {
+  font-family: var(--font-logo), cursive;
+}
+
+/* Heading font utility */
+.font-heading {
+  font-family: var(--font-heading), system-ui, -apple-system, sans-serif;
+}
+
+/* Body font utility */
+.font-body {
+  font-family: var(--font-body), system-ui, -apple-system, sans-serif;
 }
 
 /* Master liquid glass border & shadow style */
@@ -72,7 +106,7 @@ body {
               0 8px 32px rgba(40, 40, 60, 0.12);
 }
 
-/* Panel glass background layer (clearer, see-through) */
+/* Panel glass background layer */
 .glass-panel-bg {
   backdrop-filter: blur(var(--glass-blur-edge));
   -webkit-backdrop-filter: blur(var(--glass-blur-edge));

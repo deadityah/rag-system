@@ -262,7 +262,7 @@ export default function Home() {
         <div className="mb-3 flex items-center justify-between rounded-2xl border border-[rgba(255,255,255,0.85)] bg-white/[0.15] px-4 py-2.5 shadow-[0_0_0_1px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.95),0_8px_32px_rgba(40,40,60,0.12)] backdrop-blur-[24px] lg:hidden">
           <div className="flex items-center gap-2">
             <div className="h-2.5 w-2.5 rounded-full bg-accent" />
-            <span className="font-semibold text-sm tracking-tight text-[#1f1f23]">
+            <span className="font-logo font-normal text-xl tracking-normal text-[#1f1f23]">
               DocuMind
             </span>
           </div>
@@ -309,7 +309,7 @@ export default function Home() {
 
         {/* Phase 2 Interactive State Switcher */}
         <footer className="mt-3 hidden sm:flex items-center justify-between rounded-2xl border border-[rgba(255,255,255,0.85)] bg-white/[0.15] px-3.5 py-1.5 text-xs text-[#5b5b66] shadow-[0_0_0_1px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.95)] backdrop-blur-[24px]">
-          <div className="flex items-center gap-1.5 font-semibold text-[#1f1f23]">
+          <div className="flex items-center gap-1.5 font-heading font-semibold text-[#1f1f23]">
             <Layers className="h-3.5 w-3.5 text-accent" />
             <span>Phase 2 State Preview:</span>
           </div>

@@ -122,7 +122,7 @@ export function UploadZone({
               <span className="h-5 w-5 animate-spin rounded-full border-2 border-accent border-t-transparent" />
             </div>
             <div className="space-y-1">
-              <p className="font-semibold text-sm text-[#1f1f23]">
+              <p className="font-heading font-semibold text-sm text-[#1f1f23]">
                 {uploadStep}
               </p>
               <p className="text-xs text-[#5b5b66]">
@@ -133,7 +133,7 @@ export function UploadZone({
         ) : isLimitReached ? (
           <div className="relative z-20 flex flex-col items-center gap-2">
             <FileText className="h-8 w-8 text-[#5b5b66]" />
-            <p className="font-semibold text-sm text-[#1f1f23]">
+            <p className="font-heading font-semibold text-sm text-[#1f1f23]">
               Document limit reached ({maxDocuments}/{maxDocuments})
             </p>
             <p className="text-xs text-[#5b5b66]">
@@ -146,7 +146,7 @@ export function UploadZone({
               <UploadCloud className="h-5 w-5 text-[#1f1f23]" />
             </div>
             <div className="space-y-1">
-              <p className="font-semibold text-sm text-[#1f1f23]">
+              <p className="font-heading font-semibold text-base text-[#1f1f23]">
                 Upload PDF document
               </p>
               <p className="text-xs text-[#5b5b66]">

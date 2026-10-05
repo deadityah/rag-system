@@ -1,10 +1,27 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Titillium_Web, Space_Grotesk, Playwrite_AR } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+// Main writing font (body, chat, buttons, inputs, labels)
+const titilliumWeb = Titillium_Web({
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: ["400", "600", "700"],
+  variable: "--font-body",
+  display: "swap",
+});
+
+// Headings font
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-heading",
+  display: "swap",
+});
+
+// Logo font (Playwrite Argentina)
+const playwriteAR = Playwrite_AR({
+  variable: "--font-logo",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -19,9 +36,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} font-sans antialiased`}>
+      <body
+        className={`${titilliumWeb.variable} ${spaceGrotesk.variable} ${playwriteAR.variable} font-body antialiased`}
+      >
         {/* Shared SVG displacement filters from reference/liquidglass.md */}
-        <svg aria-hidden="true" className="pointer-events-none fixed -top-[9999px] -left-[9999px] h-0 w-0 opacity-0" focusable={false}>
+        <svg
+          aria-hidden="true"
+          className="pointer-events-none fixed -top-[9999px] -left-[9999px] h-0 w-0 opacity-0"
+          focusable={false}
+        >
           <title>Liquid Glass Effect Filter</title>
           <defs>
             <filter

@@ -34,7 +34,7 @@ export const MessageBubble = React.memo(function MessageBubble({
         remarkPlugins={[remarkGfm]}
         components={{
           p: ({ children }) => (
-            <p className="mb-2 last:mb-0 leading-[1.65] font-normal text-[#1f1f23]">{children}</p>
+            <p className="mb-2 last:mb-0 text-[16px] leading-[1.65] font-normal text-[#1f1f23]">{children}</p>
           ),
           strong: ({ children }) => (
             <strong className="font-semibold text-[#1f1f23]">
@@ -42,12 +42,12 @@ export const MessageBubble = React.memo(function MessageBubble({
             </strong>
           ),
           ul: ({ children }) => (
-            <ul className="mb-2 list-disc pl-5 space-y-1 last:mb-0 text-[#1f1f23]">
+            <ul className="mb-2 list-disc pl-5 space-y-1 last:mb-0 text-[16px] text-[#1f1f23]">
               {children}
             </ul>
           ),
           ol: ({ children }) => (
-            <ol className="mb-2 list-decimal pl-5 space-y-1 last:mb-0 text-[#1f1f23]">
+            <ol className="mb-2 list-decimal pl-5 space-y-1 last:mb-0 text-[16px] text-[#1f1f23]">
               {children}
             </ol>
           ),
@@ -83,7 +83,7 @@ export const MessageBubble = React.memo(function MessageBubble({
     >
       <div
         className={cn(
-          "relative max-w-[85%] sm:max-w-[75%] rounded-2xl px-5 py-3.5 text-[15px] transition-all",
+          "relative max-w-[85%] sm:max-w-[75%] rounded-2xl px-5 py-3.5 text-[16px] leading-[1.65] transition-all",
           "border border-[rgba(255,255,255,0.85)]",
           "shadow-[0_0_0_1px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.95),0_8px_32px_rgba(40,40,60,0.12)]",
           "backdrop-blur-[30px]",

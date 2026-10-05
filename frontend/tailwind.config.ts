@@ -8,13 +8,14 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        body: ["var(--font-body)", "system-ui", "-apple-system", "sans-serif"],
+        heading: ["var(--font-heading)", "system-ui", "-apple-system", "sans-serif"],
+        logo: ["var(--font-logo)", "cursive"],
+      },
       colors: {
         background: "var(--bg-base)",
         "bg-soft": "var(--bg-soft)",
-        "glass-fill": "var(--glass-fill)",
-        "glass-fill-strong": "var(--glass-fill-strong)",
-        "glass-border": "var(--glass-border)",
-        "glass-border-dim": "var(--glass-border-dim)",
         "text-primary": "var(--text-primary)",
         "text-secondary": "var(--text-secondary)",
         "text-muted": "var(--text-muted)",
