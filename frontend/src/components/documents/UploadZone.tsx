@@ -1,14 +1,14 @@
 "use client";
 
 import { motion } from "motion/react";
-import { UploadCloud, FileText, AlertCircle, CheckCircle2 } from "lucide-react";
+import { UploadCloud, FileText, AlertCircle } from "lucide-react";
 import React, { useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 export interface UploadZoneProps {
   onFileSelect?: (file: File) => void;
   isUploading?: boolean;
-  uploadStep?: string; // "Uploading…" | "Reading pages…" | "Understanding text…" | "Ready"
+  uploadStep?: string;
   error?: string | null;
   disabled?: boolean;
   documentCount?: number;
@@ -78,12 +78,15 @@ export function UploadZone({
         onDrop={handleDrop}
         className={cn(
           "relative flex flex-col items-center justify-center rounded-2xl border-2 border-dashed p-6 text-center transition-all cursor-pointer",
+          "border-[rgba(255,255,255,0.85)]",
+          "shadow-[0_0_0_1px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.95),0_8px_32px_rgba(40,40,60,0.12)]",
+          "backdrop-blur-[30px] bg-white/55",
           isDragOver
-            ? "border-accent bg-white/80 shadow-md"
-            : "border-white/80 bg-white/40 hover:border-text-secondary/40 hover:bg-white/60",
+            ? "border-black/30 bg-white/80 shadow-lg"
+            : "hover:border-black/20 hover:bg-white/65",
           (disabled || isLimitReached) &&
             "cursor-not-allowed border-black/10 bg-black/5 opacity-60",
-          isUploading && "cursor-wait border-accent/40 bg-white/70"
+          isUploading && "cursor-wait border-accent/40 bg-white/75"
         )}
       >
         <input
@@ -101,34 +104,34 @@ export function UploadZone({
               <span className="h-5 w-5 animate-spin rounded-full border-2 border-accent border-t-transparent" />
             </div>
             <div className="space-y-1">
-              <p className="font-medium text-sm text-text-primary">
+              <p className="font-semibold text-sm text-[#1f1f23]">
                 {uploadStep}
               </p>
-              <p className="text-xs text-text-muted">
+              <p className="text-xs text-[#5b5b66]">
                 Extracting and indexing text chunks…
               </p>
             </div>
           </div>
         ) : isLimitReached ? (
           <div className="flex flex-col items-center gap-2">
-            <FileText className="h-8 w-8 text-text-muted" />
-            <p className="font-medium text-sm text-text-secondary">
+            <FileText className="h-8 w-8 text-[#8c8c97]" />
+            <p className="font-medium text-sm text-[#1f1f23]">
               Document limit reached ({maxDocuments}/{maxDocuments})
             </p>
-            <p className="text-xs text-text-muted">
+            <p className="text-xs text-[#5b5b66]">
               Delete an existing document to upload another.
             </p>
           </div>
         ) : (
           <div className="flex flex-col items-center gap-2.5">
-            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/80 shadow-sm">
-              <UploadCloud className="h-5 w-5 text-text-secondary" />
+            <div className="flex h-11 w-11 items-center justify-center rounded-full border border-white/80 bg-white/80 shadow-sm">
+              <UploadCloud className="h-5 w-5 text-[#1f1f23]" />
             </div>
             <div className="space-y-1">
-              <p className="font-semibold text-sm text-text-primary">
+              <p className="font-semibold text-sm text-[#1f1f23]">
                 Upload PDF document
               </p>
-              <p className="text-xs text-text-muted">
+              <p className="text-xs text-[#5b5b66]">
                 Drag and drop or click to browse (up to 10 MB, 100 pages)
               </p>
             </div>
@@ -141,10 +144,10 @@ export function UploadZone({
         <motion.div
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mt-2.5 flex items-start gap-2 rounded-xl border border-red-200/80 bg-red-50/70 p-3 text-xs text-red-700"
+          className="mt-2.5 flex items-start gap-2 rounded-xl border border-red-200/90 bg-red-50/85 p-3 text-xs text-red-700 shadow-[0_0_0_1px_rgba(200,50,50,0.1),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-[20px]"
         >
           <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-600" />
-          <p className="leading-relaxed">{error}</p>
+          <p className="leading-relaxed font-medium">{error}</p>
         </motion.div>
       )}
     </div>

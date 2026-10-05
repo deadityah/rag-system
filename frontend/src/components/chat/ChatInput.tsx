@@ -43,8 +43,11 @@ export function ChatInput({
     <div className="relative w-full">
       <div
         className={cn(
-          "relative flex flex-col rounded-2xl border border-white/80 bg-white/60 p-1.5 shadow-sm liquid-glass-shadow backdrop-blur-xl transition-all",
-          "focus-within:border-white focus-within:bg-white/75 focus-within:shadow-md",
+          "relative flex flex-col rounded-2xl p-1.5 transition-all",
+          "border border-[rgba(255,255,255,0.85)]",
+          "shadow-[0_0_0_1px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.95),0_8px_32px_rgba(40,40,60,0.12)]",
+          "backdrop-blur-[30px] bg-white/65",
+          "focus-within:bg-white/75 focus-within:shadow-lg",
           disabled && "opacity-60 cursor-not-allowed"
         )}
       >
@@ -59,11 +62,11 @@ export function ChatInput({
               ? "Upload a PDF document first to start chatting…"
               : placeholder
           }
-          className="pr-12"
+          className="pr-12 text-[#1f1f23] placeholder:text-[#8c8c97]"
         />
 
         <div className="flex items-center justify-between px-3 pb-1.5 pt-1">
-          {/* Character counter (shows when near limit) */}
+          {/* Character counter */}
           <div className="text-[11px] text-text-muted">
             {isNearLimit && (
               <span className={value.length >= maxLength ? "text-danger font-medium" : ""}>
@@ -77,10 +80,10 @@ export function ChatInput({
             {isStreaming ? (
               <GlassButton
                 size="icon"
-                variant="secondary"
+                variant="danger"
                 onClick={handleStop}
                 aria-label="Stop generating answer"
-                className="h-8 w-8 rounded-full border-red-200 bg-red-50 text-red-600 hover:bg-red-100"
+                className="h-8 w-8 rounded-full"
               >
                 <Square className="h-3.5 w-3.5 fill-current" />
               </GlassButton>
@@ -91,7 +94,7 @@ export function ChatInput({
                 onClick={handleSend}
                 disabled={disabled || !value.trim()}
                 aria-label="Send question"
-                className="h-8 w-8 rounded-full shadow-sm"
+                className="h-8 w-8 rounded-full"
               >
                 <ArrowUp className="h-4 w-4" />
               </GlassButton>

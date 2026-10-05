@@ -28,28 +28,26 @@ export const MessageBubble = React.memo(function MessageBubble({
     }
   };
 
-  // Helper to highlight citation markers like (report.pdf, p. 4)
   const renderFormattedText = (content: string) => {
-    // Return markdown with custom components
     return (
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
           p: ({ children }) => (
-            <p className="mb-2 last:mb-0 leading-[1.65]">{children}</p>
+            <p className="mb-2 last:mb-0 leading-[1.65] font-normal text-[#1f1f23]">{children}</p>
           ),
           strong: ({ children }) => (
-            <strong className="font-semibold text-text-primary">
+            <strong className="font-semibold text-[#1f1f23]">
               {children}
             </strong>
           ),
           ul: ({ children }) => (
-            <ul className="mb-2 list-disc pl-5 space-y-1 last:mb-0">
+            <ul className="mb-2 list-disc pl-5 space-y-1 last:mb-0 text-[#1f1f23]">
               {children}
             </ul>
           ),
           ol: ({ children }) => (
-            <ol className="mb-2 list-decimal pl-5 space-y-1 last:mb-0">
+            <ol className="mb-2 list-decimal pl-5 space-y-1 last:mb-0 text-[#1f1f23]">
               {children}
             </ol>
           ),
@@ -57,11 +55,11 @@ export const MessageBubble = React.memo(function MessageBubble({
           code: ({ children, className }) => {
             const isInline = !className;
             return isInline ? (
-              <code className="rounded bg-black/5 px-1 py-0.5 font-mono text-[13px] text-text-primary">
+              <code className="rounded border border-black/10 bg-black/5 px-1.5 py-0.5 font-mono text-[13px] text-[#1f1f23]">
                 {children}
               </code>
             ) : (
-              <pre className="my-2 overflow-x-auto rounded-xl bg-black/5 p-3 font-mono text-xs text-text-primary">
+              <pre className="my-2 overflow-x-auto rounded-xl border border-black/10 bg-white/50 p-3 font-mono text-xs text-[#1f1f23]">
                 <code>{children}</code>
               </pre>
             );
@@ -85,10 +83,13 @@ export const MessageBubble = React.memo(function MessageBubble({
     >
       <div
         className={cn(
-          "relative max-w-[85%] sm:max-w-[75%] rounded-2xl px-4 py-3 text-[15px] liquid-glass-shadow transition-all",
+          "relative max-w-[85%] sm:max-w-[75%] rounded-2xl px-5 py-3.5 text-[15px] transition-all",
+          "border border-[rgba(255,255,255,0.85)]",
+          "shadow-[0_0_0_1px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.95),0_8px_32px_rgba(40,40,60,0.12)]",
+          "backdrop-blur-[30px]",
           isUser
-            ? "border border-white/80 bg-white/70 text-text-primary backdrop-blur-md rounded-br-sm"
-            : "border border-white/60 bg-white/45 text-text-primary backdrop-blur-md rounded-bl-sm"
+            ? "bg-white/70 text-[#1f1f23] rounded-br-sm"
+            : "bg-white/55 text-[#1f1f23] rounded-bl-sm"
         )}
       >
         {/* Assistant Copy Button */}
@@ -96,17 +97,17 @@ export const MessageBubble = React.memo(function MessageBubble({
           <button
             onClick={handleCopy}
             aria-label="Copy answer to clipboard"
-            className="absolute -top-3 right-3 rounded-full border border-white/80 bg-white/90 p-1.5 text-text-secondary opacity-0 shadow-sm transition-all hover:bg-white hover:text-text-primary group-hover:opacity-100"
+            className="absolute -top-3 right-3 rounded-full border border-white/90 bg-white/95 p-1.5 text-[#5b5b66] opacity-0 shadow-sm transition-all hover:bg-white hover:text-[#1f1f23] group-hover:opacity-100"
           >
             {copied ? (
-              <Check className="h-3 w-3 text-success" />
+              <Check className="h-3 w-3 text-emerald-600" />
             ) : (
               <Copy className="h-3 w-3" />
             )}
           </button>
         )}
 
-        <div className="prose prose-sm max-w-none text-text-primary">
+        <div className="prose prose-sm max-w-none text-[#1f1f23]">
           {renderFormattedText(message.content)}
         </div>
       </div>

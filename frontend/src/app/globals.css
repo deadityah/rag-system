@@ -3,29 +3,41 @@
 @tailwind utilities;
 
 :root {
-  /* Surfaces */
-  --bg-base: #faf9f7;            /* off-white page */
-  --bg-soft: #f3f1ed;
-  --glass-fill: rgba(255, 255, 255, 0.45);
-  --glass-fill-strong: rgba(255, 255, 255, 0.70);
-  --glass-border: rgba(255, 255, 255, 0.70);
-  --glass-border-dim: rgba(0, 0, 0, 0.06);
-  --glass-blur: 18px;
-  --glass-shadow: 0 8px 32px rgba(40, 40, 60, 0.08);
+  /* Dot Color */
+  --dot-color: #000000;
 
-  /* Text */
+  /* Base Page Surfaces */
+  --bg-base: #faf9f7;
+  --bg-soft: #f3f1ed;
+
+  /* Glass Fills & Blurs */
+  --glass-fill-edge-start: rgba(255, 255, 255, 0.25);  /* clearer top-left */
+  --glass-fill-edge-mid: rgba(255, 255, 255, 0.40);
+  --glass-fill-edge-end: rgba(255, 255, 255, 0.55);    /* frostier bottom-right */
+  
+  --glass-fill-content: rgba(255, 255, 255, 0.55);     /* inner content layer fill */
+  --glass-fill-content-strong: rgba(255, 255, 255, 0.70);
+
+  /* Exact Borders & Rings */
+  --glass-border: rgba(255, 255, 255, 0.85);
+  --glass-ring: rgba(0, 0, 0, 0.08);
+  --glass-highlight: rgba(255, 255, 255, 0.95);
+  --glass-shadow: 0 8px 32px rgba(40, 40, 60, 0.12);
+
+  /* Precise Blur Radii */
+  --glass-blur-edge: 14px;      /* 12-16px range for panel perimeter */
+  --glass-blur-content: 30px;   /* 28-32px range for content readability */
+
+  /* Text & Contrast */
   --text-primary: #1f1f23;
   --text-secondary: #5b5b66;
   --text-muted: #8c8c97;
 
   /* Accents */
-  --accent: #2b2b33;             /* near-black for buttons */
+  --accent: #2b2b33;
   --accent-soft: rgba(43, 43, 51, 0.08);
   --danger: #c0392b;
   --success: #2f8f5b;
-
-  /* Dots */
-  --dot-color: rgba(120, 120, 135, 0.35);
 
   /* Shape */
   --radius-lg: 24px;
@@ -42,34 +54,53 @@ body {
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
 
-/* Signature liquid glass shadow adapted from reference/liquidglass.md */
-.liquid-glass-shadow {
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.02),
-              0 2px 6px rgba(0, 0, 0, 0.05),
-              inset 2px 2px 0.5px -2px rgba(255, 255, 255, 0.95),
-              inset -2px -2px 0.5px -2px rgba(0, 0, 0, 0.15),
-              inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.8),
-              inset -1px -1px 1px -0.5px rgba(0, 0, 0, 0.1),
-              inset 0 0 6px 6px rgba(255, 255, 255, 0.2),
-              0 8px 32px rgba(40, 40, 60, 0.06);
+/* Master liquid glass border & shadow style */
+.liquid-glass-border-shadow {
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08),
+              inset 0 1px 0 rgba(255, 255, 255, 0.95),
+              inset 2px 2px 0.5px -2px rgba(255, 255, 255, 0.9),
+              inset -2px -2px 0.5px -2px rgba(0, 0, 0, 0.08),
+              0 8px 32px rgba(40, 40, 60, 0.12);
 }
 
-/* Glass panel base styles with fallback */
-.glass-panel {
-  background-color: var(--glass-fill);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border: 1px solid var(--glass-border);
+/* Outer liquid glass surface with uneven gradient & edge blur (12-16px) */
+.glass-panel-outer {
+  backdrop-filter: blur(var(--glass-blur-edge));
+  -webkit-backdrop-filter: blur(var(--glass-blur-edge));
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0.40) 45%,
+    rgba(255, 255, 255, 0.55) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08),
+              inset 0 1px 0 rgba(255, 255, 255, 0.95),
+              inset 2px 2px 0.5px -2px rgba(255, 255, 255, 0.9),
+              inset -2px -2px 0.5px -2px rgba(0, 0, 0, 0.08),
+              0 8px 32px rgba(40, 40, 60, 0.12);
 }
 
+/* Inner content layer for maximum readability (blur 28-32px, fill ~0.55) */
+.glass-content-layer {
+  backdrop-filter: blur(var(--glass-blur-content));
+  -webkit-backdrop-filter: blur(var(--glass-blur-content));
+  background-color: var(--glass-fill-content);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08),
+              inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+/* Liquid refraction filter layer from reference/liquidglass.md */
 @supports (backdrop-filter: url(#documind-glass-filter)) {
   .liquid-refraction {
-    backdrop-filter: url(#documind-glass-filter) blur(8px);
-    -webkit-backdrop-filter: url(#documind-glass-filter) blur(8px);
+    backdrop-filter: url(#documind-glass-filter) blur(var(--glass-blur-edge));
+    -webkit-backdrop-filter: url(#documind-glass-filter) blur(var(--glass-blur-edge));
   }
 }
 
-/* Smooth custom scrollbars for chat */
+/* Custom scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -80,10 +111,10 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(120, 120, 135, 0.2);
+  background: rgba(0, 0, 0, 0.15);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(120, 120, 135, 0.35);
+  background: rgba(0, 0, 0, 0.25);
 }

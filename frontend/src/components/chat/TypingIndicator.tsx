@@ -5,17 +5,17 @@ import React from "react";
 
 export function TypingIndicator() {
   const dotVariants = {
-    initial: { y: 0, opacity: 0.4 },
-    animate: { y: -4, opacity: 0.9 },
+    initial: { y: 0, opacity: 0.35 },
+    animate: { y: -4, opacity: 0.95 },
   };
 
   return (
     <div
       aria-label="Thinking"
-      className="inline-flex items-center gap-1.5 rounded-2xl border border-white/60 bg-white/40 px-3.5 py-2.5 backdrop-blur-md"
+      className="inline-flex items-center gap-1.5 rounded-2xl border border-[rgba(255,255,255,0.85)] bg-white/55 px-4 py-3 shadow-[0_0_0_1px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.95),0_8px_32px_rgba(40,40,60,0.12)] backdrop-blur-[30px]"
     >
       <motion.span
-        className="h-1.5 w-1.5 rounded-full bg-text-secondary"
+        className="h-1.5 w-1.5 rounded-full bg-[#1f1f23]"
         variants={dotVariants}
         initial="initial"
         animate="animate"
@@ -27,7 +27,7 @@ export function TypingIndicator() {
         }}
       />
       <motion.span
-        className="h-1.5 w-1.5 rounded-full bg-text-secondary"
+        className="h-1.5 w-1.5 rounded-full bg-[#1f1f23]"
         variants={dotVariants}
         initial="initial"
         animate="animate"
@@ -40,7 +40,7 @@ export function TypingIndicator() {
         }}
       />
       <motion.span
-        className="h-1.5 w-1.5 rounded-full bg-text-secondary"
+        className="h-1.5 w-1.5 rounded-full bg-[#1f1f23]"
         variants={dotVariants}
         initial="initial"
         animate="animate"

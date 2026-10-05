@@ -30,19 +30,20 @@ export function Sidebar({
   onCloseMobile,
 }: SidebarProps) {
   const sidebarContent = (
-    <div className="flex h-full flex-col justify-between p-5 space-y-6">
-      <div className="space-y-6">
+    <div className="flex h-full flex-col justify-between p-3.5 space-y-4">
+      {/* Inner Content Layer (blur 30px, fill ~0.55) to guarantee text readability */}
+      <div className="flex-1 space-y-5 rounded-[20px] p-3.5 backdrop-blur-[30px] bg-white/55 border border-[rgba(255,255,255,0.85)] shadow-[0_0_0_1px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.95)] overflow-y-auto">
         {/* Brand Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between pb-1">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-accent text-white shadow-sm">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/50 bg-[#2b2b33] text-white shadow-md">
               <BookOpen className="h-5 w-5" />
             </div>
             <div>
-              <h1 className="font-semibold text-base tracking-tight text-text-primary">
+              <h1 className="font-semibold text-base tracking-tight text-[#1f1f23]">
                 DocuMind
               </h1>
-              <p className="text-[11px] text-text-muted">
+              <p className="text-[11px] text-[#5b5b66]">
                 Intelligent Document RAG
               </p>
             </div>
@@ -52,7 +53,7 @@ export function Sidebar({
           {onCloseMobile && (
             <button
               onClick={onCloseMobile}
-              className="rounded-lg p-1 text-text-secondary hover:bg-black/5 lg:hidden"
+              className="rounded-lg p-1 text-[#5b5b66] hover:bg-black/5 lg:hidden"
               aria-label="Close sidebar"
             >
               <X className="h-5 w-5" />
@@ -77,9 +78,9 @@ export function Sidebar({
         />
       </div>
 
-      {/* Safety and Session Info */}
-      <div className="rounded-xl border border-white/40 bg-white/30 p-3 text-[11px] text-text-muted">
-        <div className="flex items-center gap-1.5 font-medium text-text-secondary mb-1">
+      {/* Session Info Footer Layer */}
+      <div className="rounded-[18px] border border-[rgba(255,255,255,0.85)] bg-white/55 p-3.5 text-[11px] text-[#5b5b66] shadow-[0_0_0_1px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.95)] backdrop-blur-[30px]">
+        <div className="flex items-center gap-1.5 font-semibold text-[#1f1f23] mb-1">
           <ShieldCheck className="h-3.5 w-3.5" />
           <span>Anonymous Session</span>
         </div>
@@ -92,35 +93,33 @@ export function Sidebar({
 
   return (
     <>
-      {/* Desktop Persistent Sidebar */}
-      <div className="hidden lg:block h-full w-[320px] shrink-0">
-        <GlassPanel className="h-full w-full overflow-y-auto">
+      {/* Desktop Persistent Sidebar with rounded-24px and clear edge glass */}
+      <div className="hidden lg:block h-full w-[330px] shrink-0">
+        <GlassPanel className="h-full w-full">
           {sidebarContent}
         </GlassPanel>
       </div>
 
-      {/* Mobile Drawer (with backdrop and Motion spring transition) */}
+      {/* Mobile Drawer (with backdrop and spring physics) */}
       <AnimatePresence>
         {isOpenMobile && (
           <div className="fixed inset-0 z-50 lg:hidden">
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={onCloseMobile}
-              className="absolute inset-0 bg-black/20 backdrop-blur-sm"
+              className="absolute inset-0 bg-black/25 backdrop-blur-sm"
             />
 
-            {/* Slide-in drawer */}
             <motion.aside
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 250 }}
-              className="absolute top-0 bottom-0 left-0 w-[300px] max-w-[85vw] p-2"
+              className="absolute top-0 bottom-0 left-0 w-[310px] max-w-[85vw] p-2.5"
             >
-              <GlassPanel strong className="h-full w-full overflow-y-auto shadow-2xl">
+              <GlassPanel className="h-full w-full shadow-2xl">
                 {sidebarContent}
               </GlassPanel>
             </motion.aside>

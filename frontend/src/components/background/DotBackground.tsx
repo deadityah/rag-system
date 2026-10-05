@@ -3,6 +3,9 @@
 import { motion } from "motion/react";
 import React, { useEffect, useRef } from "react";
 
+// Configurable dot color (pure black as requested)
+export const DOT_COLOR = "#000000";
+
 interface Dot {
   x: number;
   y: number;
@@ -18,6 +21,16 @@ interface DotBackgroundProps {
   dotSpacing?: number;
   repulsionRadius?: number;
   repulsionStrength?: number;
+  color?: string;
+}
+
+// Helper to convert hex color to rgba with dynamic opacity
+function hexToRgba(hex: string, alpha: number): string {
+  const cleanHex = hex.replace("#", "");
+  const r = parseInt(cleanHex.substring(0, 2), 16) || 0;
+  const g = parseInt(cleanHex.substring(2, 4), 16) || 0;
+  const b = parseInt(cleanHex.substring(4, 6), 16) || 0;
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
 export function DotBackground({
@@ -25,6 +38,7 @@ export function DotBackground({
   dotSpacing = 28,
   repulsionRadius = 110,
   repulsionStrength = 28,
+  color = DOT_COLOR,
 }: DotBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -65,7 +79,7 @@ export function DotBackground({
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.scale(dpr, dpr);
 
-      // Generate dot grid based on window dimensions
+      // Generate dot grid across the entire screen
       dots = [];
       const cols = Math.ceil(width / dotSpacing);
       const rows = Math.ceil(height / dotSpacing);
@@ -83,14 +97,9 @@ export function DotBackground({
           const distFromCenter = Math.sqrt(dx * dx + dy * dy);
           const edgeFactor = Math.min(distFromCenter / (maxDistance * 0.75), 1);
 
-          // Subtle natural falloff at edges
-          if (Math.random() > edgeFactor * 0.9 + 0.1) {
-            // Keep dots consistent across pattern
-          }
-
           const pattern = (row + col) % 3;
-          const baseOpacities = [0.25, 0.45, 0.65];
-          const baseOpacity = baseOpacities[pattern] * (0.4 + 0.6 * edgeFactor);
+          const baseOpacities = [0.3, 0.5, 0.7];
+          const baseOpacity = baseOpacities[pattern] * (0.5 + 0.5 * edgeFactor);
 
           dots.push({
             x,
@@ -116,7 +125,7 @@ export function DotBackground({
         const dot = dots[i];
         ctx.beginPath();
         ctx.arc(dot.baseX, dot.baseY, dotSize / 2, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(120, 120, 135, ${dot.baseOpacity * 0.6})`;
+        ctx.fillStyle = hexToRgba(color, dot.baseOpacity * 0.65);
         ctx.fill();
       }
     };
@@ -169,10 +178,10 @@ export function DotBackground({
         dot.x += dot.vx * dt;
         dot.y += dot.vy * dt;
 
-        // Render dot
+        // Render dot in pure black with dynamic opacity
         ctx.beginPath();
         ctx.arc(dot.x, dot.y, dotSize / 2, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(120, 120, 135, ${currentOpacity * 0.55})`;
+        ctx.fillStyle = hexToRgba(color, currentOpacity * 0.65);
         ctx.fill();
       }
 
@@ -224,7 +233,7 @@ export function DotBackground({
         cancelAnimationFrame(animationFrameId);
       }
     };
-  }, [dotSize, dotSpacing, repulsionRadius, repulsionStrength]);
+  }, [dotSize, dotSpacing, repulsionRadius, repulsionStrength, color]);
 
   return (
     <motion.div

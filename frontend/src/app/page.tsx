@@ -37,7 +37,7 @@ const INITIAL_MESSAGES: ChatMessage[] = [
     id: "msg-2",
     role: "assistant",
     content:
-      "According to the report, the primary revenue drivers for Q3 were:\n\n* **Cloud Services Growth**: Up by **34% year-over-year**, driven by enterprise migration contracts (q3_financial_report_2025.pdf, p. 3).\n* **Subscription Renewals**: Reached an all-time high retention rate of **94.2%** (q3_financial_report_2025.pdf, p. 5).\n* **Hardware Shipments**: Remained steady with **\$12.4M** in regional sales (q3_financial_report_2025.pdf, p. 7).\n\nOperating expenses decreased by **4.1%** over the same period (q3_financial_report_2025.pdf, p. 8).",
+      "According to the report, the primary revenue drivers for Q3 were:\n\n* **Cloud Services Growth**: Up by **34% year-over-year**, driven by enterprise migration contracts (q3_financial_report_2025.pdf, p. 3).\n* **Subscription Renewals**: Reached an all-time high retention rate of **94.2%** (q3_financial_report_2025.pdf, p. 5).\n* **Hardware Shipments**: Remained steady with **$12.4M** in regional sales (q3_financial_report_2025.pdf, p. 7).\n\nOperating expenses decreased by **4.1%** over the same period (q3_financial_report_2025.pdf, p. 8).",
     status: "done",
     sources: [
       {
@@ -67,14 +67,12 @@ export default function Home() {
   // Stream simulation controller
   const streamingTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Clean up timers on unmount
   useEffect(() => {
     return () => {
       if (streamingTimerRef.current) clearInterval(streamingTimerRef.current);
     };
   }, []);
 
-  // Simulate file upload with steps
   const handleUploadFile = (file: File) => {
     setUploadError(null);
 
@@ -112,7 +110,6 @@ export default function Home() {
     setDocuments((prev) => prev.filter((d) => d.id !== id));
   };
 
-  // Simulate streaming AI answer
   const handleSendMessage = (question: string) => {
     const userMsg: ChatMessage = {
       id: `user-${Date.now()}`,
@@ -129,7 +126,6 @@ export default function Home() {
       (documents[0]?.filename || "uploaded documents") +
       "**, here are the key findings:\n\n* The system processes incoming requests through a verified pipeline with page-level indexing (p. 2).\n* All answers are grounded strictly in document excerpts to eliminate outside hallucinations (p. 4).\n* Vector embeddings are normalized to **768 dimensions** for cosine similarity matching (p. 6).";
 
-    // Simulate thinking delay then streaming
     setTimeout(() => {
       setIsThinking(false);
 
@@ -187,7 +183,6 @@ export default function Home() {
     );
   };
 
-  // Preset state toggles for design review
   const loadPresetState = (stateName: string) => {
     if (streamingTimerRef.current) clearInterval(streamingTimerRef.current);
     setIsStreaming(false);
@@ -258,16 +253,16 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen min-h-[100dvh] w-full select-none overflow-hidden bg-background">
-      {/* Background Dot Layer */}
+      {/* Background Pure Black Dot Layer Covering Full Screen Behind Panels */}
       <DotBackground />
 
       {/* Main Responsive Application Shell */}
       <div className="relative z-10 flex h-screen h-[100dvh] flex-col p-3 sm:p-5 lg:p-6">
         {/* Mobile Top Navigation Bar */}
-        <div className="mb-3 flex items-center justify-between rounded-2xl border border-white/70 bg-white/50 px-4 py-2.5 shadow-sm liquid-glass-shadow backdrop-blur-md lg:hidden">
+        <div className="mb-3 flex items-center justify-between rounded-2xl border border-[rgba(255,255,255,0.85)] bg-white/55 px-4 py-2.5 shadow-[0_0_0_1px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.95),0_8px_32px_rgba(40,40,60,0.12)] backdrop-blur-[30px] lg:hidden">
           <div className="flex items-center gap-2">
             <div className="h-2.5 w-2.5 rounded-full bg-accent" />
-            <span className="font-semibold text-sm tracking-tight text-text-primary">
+            <span className="font-semibold text-sm tracking-tight text-[#1f1f23]">
               DocuMind
             </span>
           </div>
@@ -283,7 +278,7 @@ export default function Home() {
           </GlassButton>
         </div>
 
-        {/* Desktop Side-by-Side Panels */}
+        {/* Desktop Side-by-Side Panels (rounded corners at 24px) */}
         <div className="flex flex-1 gap-5 overflow-hidden">
           <Sidebar
             documents={documents}
@@ -312,9 +307,9 @@ export default function Home() {
           </main>
         </div>
 
-        {/* Phase 2 Interactive State Switcher (Review Bar) */}
-        <footer className="mt-3 hidden sm:flex items-center justify-between rounded-xl border border-white/50 bg-white/30 px-3 py-1.5 text-xs text-text-muted backdrop-blur-sm">
-          <div className="flex items-center gap-1.5 font-medium text-text-secondary">
+        {/* Phase 2 Interactive State Switcher */}
+        <footer className="mt-3 hidden sm:flex items-center justify-between rounded-xl border border-[rgba(255,255,255,0.85)] bg-white/55 px-3 py-1.5 text-xs text-[#5b5b66] shadow-[0_0_0_1px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.95)] backdrop-blur-[30px]">
+          <div className="flex items-center gap-1.5 font-semibold text-[#1f1f23]">
             <Layers className="h-3.5 w-3.5 text-accent" />
             <span>Phase 2 State Preview:</span>
           </div>
@@ -322,55 +317,55 @@ export default function Home() {
           <div className="flex flex-wrap items-center gap-1">
             <button
               onClick={() => loadPresetState("normal")}
-              className="rounded-md px-2 py-0.5 text-[11px] hover:bg-white/60 text-text-secondary"
+              className="rounded-md px-2 py-0.5 text-[11px] font-medium text-[#1f1f23] hover:bg-white/70"
             >
               Normal Chat
             </button>
             <button
               onClick={() => loadPresetState("empty")}
-              className="rounded-md px-2 py-0.5 text-[11px] hover:bg-white/60 text-text-secondary"
+              className="rounded-md px-2 py-0.5 text-[11px] font-medium text-[#1f1f23] hover:bg-white/70"
             >
               Empty State
             </button>
             <button
               onClick={() => loadPresetState("docs-no-messages")}
-              className="rounded-md px-2 py-0.5 text-[11px] hover:bg-white/60 text-text-secondary"
+              className="rounded-md px-2 py-0.5 text-[11px] font-medium text-[#1f1f23] hover:bg-white/70"
             >
               Chips Only
             </button>
             <button
               onClick={() => loadPresetState("uploading")}
-              className="rounded-md px-2 py-0.5 text-[11px] hover:bg-white/60 text-text-secondary"
+              className="rounded-md px-2 py-0.5 text-[11px] font-medium text-[#1f1f23] hover:bg-white/70"
             >
               Uploading
             </button>
             <button
               onClick={() => loadPresetState("upload-failed")}
-              className="rounded-md px-2 py-0.5 text-[11px] hover:bg-white/60 text-text-secondary"
+              className="rounded-md px-2 py-0.5 text-[11px] font-medium text-[#1f1f23] hover:bg-white/70"
             >
               Upload Error
             </button>
             <button
               onClick={() => loadPresetState("thinking")}
-              className="rounded-md px-2 py-0.5 text-[11px] hover:bg-white/60 text-text-secondary"
+              className="rounded-md px-2 py-0.5 text-[11px] font-medium text-[#1f1f23] hover:bg-white/70"
             >
               Thinking Dot
             </button>
             <button
               onClick={() => loadPresetState("not-found")}
-              className="rounded-md px-2 py-0.5 text-[11px] hover:bg-white/60 text-text-secondary"
+              className="rounded-md px-2 py-0.5 text-[11px] font-medium text-[#1f1f23] hover:bg-white/70"
             >
               Not Found
             </button>
             <button
               onClick={() => loadPresetState("cold-start")}
-              className="rounded-md px-2 py-0.5 text-[11px] hover:bg-white/60 text-text-secondary"
+              className="rounded-md px-2 py-0.5 text-[11px] font-medium text-[#1f1f23] hover:bg-white/70"
             >
               Cold Start
             </button>
             <button
               onClick={() => loadPresetState("error")}
-              className="rounded-md px-2 py-0.5 text-[11px] hover:bg-white/60 text-text-secondary"
+              className="rounded-md px-2 py-0.5 text-[11px] font-medium text-[#1f1f23] hover:bg-white/70"
             >
               Server Error
             </button>
