@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Surfaces */
+  --bg-base: #faf9f7;            /* off-white page */
+  --bg-soft: #f3f1ed;
+  --glass-fill: rgba(255, 255, 255, 0.45);
+  --glass-fill-strong: rgba(255, 255, 255, 0.70);
+  --glass-border: rgba(255, 255, 255, 0.70);
+  --glass-border-dim: rgba(0, 0, 0, 0.06);
+  --glass-blur: 18px;
+  --glass-shadow: 0 8px 32px rgba(40, 40, 60, 0.08);
+
+  /* Text */
+  --text-primary: #1f1f23;
+  --text-secondary: #5b5b66;
+  --text-muted: #8c8c97;
+
+  /* Accents (very subtle) */
+  --accent: #2b2b33;             /* near-black for buttons */
+  --accent-soft: rgba(43, 43, 51, 0.08);
+  --danger: #c0392b;
+  --success: #2f8f5b;
+
+  /* Dots */
+  --dot-color: rgba(120, 120, 135, 0.35);
+
+  /* Shape */
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 10px;
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  min-height: 100vh;
+  min-height: 100dvh;
+}
