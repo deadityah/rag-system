@@ -29,9 +29,9 @@ export function Sidebar({
   onCloseMobile,
 }: SidebarProps) {
   const sidebarCards = (
-    <div className="flex h-full flex-col justify-between gap-4">
+    <div className="flex h-full flex-col justify-between gap-4 overflow-y-auto p-4">
       {/* Upper Cards Area */}
-      <div className="flex flex-1 flex-col gap-4 overflow-y-auto pr-1">
+      <div className="flex flex-col gap-4">
         {/* Card A: Header Card (Logo + Title block as its own separate glass card) */}
         <div className="glass-card rounded-[24px] p-4 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
@@ -92,7 +92,7 @@ export function Sidebar({
   return (
     <>
       {/* Desktop Sidebar: Fully transparent wrapper, separate cards over dots */}
-      <aside className="hidden lg:flex h-full w-[330px] shrink-0 flex-col bg-transparent">
+      <aside className="hidden lg:flex h-full w-[350px] shrink-0 flex-col bg-transparent">
         {sidebarCards}
       </aside>
 
@@ -113,7 +113,7 @@ export function Sidebar({
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 250 }}
-              className="absolute top-0 bottom-0 left-0 w-[310px] max-w-[85vw] p-3"
+              className="absolute top-0 bottom-0 left-0 w-[320px] max-w-[85vw]"
             >
               {sidebarCards}
             </motion.div>

@@ -279,7 +279,7 @@ export default function Home() {
         </div>
 
         {/* Content Columns: fully transparent wrapper, no big glass container */}
-        <div className="flex flex-1 gap-5 overflow-hidden bg-transparent">
+        <div className="flex flex-1 min-h-0 gap-5 bg-transparent">
           <Sidebar
             documents={documents}
             onUploadFile={handleUploadFile}

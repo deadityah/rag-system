@@ -3,8 +3,11 @@
 import { motion } from "motion/react";
 import React, { useEffect, useRef } from "react";
 
-// Configurable dot color (pure black as requested)
+// Configurable dot parameters at top of file
 export const DOT_COLOR = "#000000";
+export const DOT_OPACITY = 0.18;      // Light, soft, and quiet
+export const DOT_RADIUS = 1.5;        // Radius 1.5px (diameter 3px)
+export const DOT_SPACING = 40;        // Spacing in 38-42px range (far fewer dots)
 
 interface Dot {
   x: number;
@@ -17,11 +20,12 @@ interface Dot {
 }
 
 interface DotBackgroundProps {
-  dotSize?: number;
+  dotRadius?: number;
   dotSpacing?: number;
   repulsionRadius?: number;
   repulsionStrength?: number;
   color?: string;
+  opacity?: number;
 }
 
 function hexToRgba(hex: string, alpha: number): string {
@@ -33,11 +37,12 @@ function hexToRgba(hex: string, alpha: number): string {
 }
 
 export function DotBackground({
-  dotSize = 1.8,
-  dotSpacing = 22,
+  dotRadius = DOT_RADIUS,
+  dotSpacing = DOT_SPACING,
   repulsionRadius = 110,
   repulsionStrength = 28,
   color = DOT_COLOR,
+  opacity = DOT_OPACITY,
 }: DotBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -61,7 +66,7 @@ export function DotBackground({
     const stiffness = 300;
     const damping = 30;
     const mass = 0.5;
-    const proximityBoost = 0.2;
+    const proximityBoost = 0.14; // Subtle boost when near cursor
 
     const resizeCanvas = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -85,11 +90,6 @@ export function DotBackground({
           const x = col * dotSpacing;
           const y = row * dotSpacing;
 
-          // Target opacity ~0.8 across the entire screen
-          const pattern = (row + col) % 3;
-          const baseOpacities = [0.75, 0.8, 0.85];
-          const baseOpacity = baseOpacities[pattern];
-
           dots.push({
             x,
             y,
@@ -97,7 +97,7 @@ export function DotBackground({
             baseY: y,
             vx: 0,
             vy: 0,
-            baseOpacity,
+            baseOpacity: opacity,
           });
         }
       }
@@ -112,7 +112,7 @@ export function DotBackground({
       for (let i = 0; i < dots.length; i++) {
         const dot = dots[i];
         ctx.beginPath();
-        ctx.arc(dot.baseX, dot.baseY, dotSize / 2, 0, Math.PI * 2);
+        ctx.arc(dot.baseX, dot.baseY, dotRadius, 0, Math.PI * 2);
         ctx.fillStyle = hexToRgba(color, dot.baseOpacity);
         ctx.fill();
       }
@@ -145,7 +145,7 @@ export function DotBackground({
             targetOffsetY = Math.sin(angle) * force;
 
             const proximityFactor = 1 - distance / repulsionRadius;
-            currentOpacity = Math.min(1, dot.baseOpacity + proximityFactor * proximityBoost);
+            currentOpacity = Math.min(0.35, dot.baseOpacity + proximityFactor * proximityBoost);
           }
         }
 
@@ -165,7 +165,7 @@ export function DotBackground({
         dot.y += dot.vy * dt;
 
         ctx.beginPath();
-        ctx.arc(dot.x, dot.y, dotSize / 2, 0, Math.PI * 2);
+        ctx.arc(dot.x, dot.y, dotRadius, 0, Math.PI * 2);
         ctx.fillStyle = hexToRgba(color, currentOpacity);
         ctx.fill();
       }
@@ -217,7 +217,7 @@ export function DotBackground({
         cancelAnimationFrame(animationFrameId);
       }
     };
-  }, [dotSize, dotSpacing, repulsionRadius, repulsionStrength, color]);
+  }, [dotRadius, dotSpacing, repulsionRadius, repulsionStrength, color, opacity]);
 
   return (
     <motion.div
