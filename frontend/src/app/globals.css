@@ -6,17 +6,14 @@
   /* Dot Color */
   --dot-color: #000000;
 
-  /* Base Page Surfaces */
-  --bg-base: #faf9f7;
-  --bg-soft: #f3f1ed;
+  /* Base Page Surfaces (Pure White) */
+  --bg-base: #ffffff;
+  --bg-soft: #ffffff;
 
-  /* Glass Fills & Blurs */
-  --glass-fill-edge-start: rgba(255, 255, 255, 0.25);  /* clearer top-left */
-  --glass-fill-edge-mid: rgba(255, 255, 255, 0.40);
-  --glass-fill-edge-end: rgba(255, 255, 255, 0.55);    /* frostier bottom-right */
-  
-  --glass-fill-content: rgba(255, 255, 255, 0.55);     /* inner content layer fill */
-  --glass-fill-content-strong: rgba(255, 255, 255, 0.70);
+  /* Liquid Glass Section Tokens */
+  --glass-section-tint: rgba(255, 255, 255, 0.10);  /* at most 0.12 */
+  --glass-section-blur: 24px;
+  --glass-section-saturate: 160%;
 
   /* Exact Borders & Rings */
   --glass-border: rgba(255, 255, 255, 0.85);
@@ -24,9 +21,8 @@
   --glass-highlight: rgba(255, 255, 255, 0.95);
   --glass-shadow: 0 8px 32px rgba(40, 40, 60, 0.12);
 
-  /* Precise Blur Radii */
-  --glass-blur-edge: 14px;      /* 12-16px range for panel perimeter */
-  --glass-blur-content: 30px;   /* 28-32px range for content readability */
+  /* Panel Perimeter Blur */
+  --glass-blur-edge: 14px;
 
   /* Text & Contrast */
   --text-primary: #1f1f23;
@@ -46,7 +42,7 @@
 }
 
 body {
-  background-color: var(--bg-base);
+  background-color: #ffffff;
   color: var(--text-primary);
   min-height: 100vh;
   min-height: 100dvh;
@@ -64,15 +60,27 @@ body {
               0 8px 32px rgba(40, 40, 60, 0.12);
 }
 
-/* Outer liquid glass surface with uneven gradient & edge blur (12-16px) */
-.glass-panel-outer {
+/* Liquid glass style for UploadZone and ChatInput (see-through, no flat white) */
+.liquid-section-glass {
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  background-color: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08),
+              inset 0 1px 0 rgba(255, 255, 255, 0.95),
+              inset 2px 2px 0.5px -2px rgba(255, 255, 255, 0.9),
+              0 8px 32px rgba(40, 40, 60, 0.12);
+}
+
+/* Panel glass background layer (clearer, see-through) */
+.glass-panel-bg {
   backdrop-filter: blur(var(--glass-blur-edge));
   -webkit-backdrop-filter: blur(var(--glass-blur-edge));
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.25) 0%,
-    rgba(255, 255, 255, 0.40) 45%,
-    rgba(255, 255, 255, 0.55) 100%
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.14) 45%,
+    rgba(255, 255, 255, 0.18) 100%
   );
   border: 1px solid rgba(255, 255, 255, 0.85);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08),
@@ -82,21 +90,11 @@ body {
               0 8px 32px rgba(40, 40, 60, 0.12);
 }
 
-/* Inner content layer for maximum readability (blur 28-32px, fill ~0.55) */
-.glass-content-layer {
-  backdrop-filter: blur(var(--glass-blur-content));
-  -webkit-backdrop-filter: blur(var(--glass-blur-content));
-  background-color: var(--glass-fill-content);
-  border: 1px solid rgba(255, 255, 255, 0.85);
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08),
-              inset 0 1px 0 rgba(255, 255, 255, 0.95);
-}
-
 /* Liquid refraction filter layer from reference/liquidglass.md */
 @supports (backdrop-filter: url(#documind-glass-filter)) {
   .liquid-refraction {
-    backdrop-filter: url(#documind-glass-filter) blur(var(--glass-blur-edge));
-    -webkit-backdrop-filter: url(#documind-glass-filter) blur(var(--glass-blur-edge));
+    backdrop-filter: url(#documind-glass-filter) blur(24px) saturate(160%);
+    -webkit-backdrop-filter: url(#documind-glass-filter) blur(24px) saturate(160%);
   }
 }
 

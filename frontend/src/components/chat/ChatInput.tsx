@@ -43,62 +43,75 @@ export function ChatInput({
     <div className="relative w-full">
       <div
         className={cn(
-          "relative flex flex-col rounded-2xl p-1.5 transition-all",
-          "border border-[rgba(255,255,255,0.85)]",
-          "shadow-[0_0_0_1px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.95),0_8px_32px_rgba(40,40,60,0.12)]",
-          "backdrop-blur-[30px] bg-white/65",
-          "focus-within:bg-white/75 focus-within:shadow-lg",
+          "group relative flex flex-col overflow-hidden rounded-2xl p-1.5 transition-all",
+          // Liquid glass styling: see-through, blur(24px) saturate(160%), light tint 0.10, exact borders & shadow
+          "liquid-section-glass",
+          "focus-within:bg-white/[0.16] focus-within:shadow-lg",
           disabled && "opacity-60 cursor-not-allowed"
         )}
       >
-        <GlassInput
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          onEnterSubmit={handleSend}
-          disabled={disabled}
-          maxLength={maxLength}
-          placeholder={
-            disabled
-              ? "Upload a PDF document first to start chatting…"
-              : placeholder
-          }
-          className="pr-12 text-[#1f1f23] placeholder:text-[#8c8c97]"
+        {/* SVG liquid glass displacement backdrop layer from liquidglass.md */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 -z-10 rounded-[inherit] liquid-refraction opacity-70"
         />
 
-        <div className="flex items-center justify-between px-3 pb-1.5 pt-1">
-          {/* Character counter */}
-          <div className="text-[11px] text-text-muted">
-            {isNearLimit && (
-              <span className={value.length >= maxLength ? "text-danger font-medium" : ""}>
-                {value.length}/{maxLength}
-              </span>
-            )}
-          </div>
+        {/* Hover reflection sheen from liquidglass.md */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-10 rounded-[inherit] bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
+        />
 
-          {/* Action button: Send or Stop */}
-          <div>
-            {isStreaming ? (
-              <GlassButton
-                size="icon"
-                variant="danger"
-                onClick={handleStop}
-                aria-label="Stop generating answer"
-                className="h-8 w-8 rounded-full"
-              >
-                <Square className="h-3.5 w-3.5 fill-current" />
-              </GlassButton>
-            ) : (
-              <GlassButton
-                size="icon"
-                variant="primary"
-                onClick={handleSend}
-                disabled={disabled || !value.trim()}
-                aria-label="Send question"
-                className="h-8 w-8 rounded-full"
-              >
-                <ArrowUp className="h-4 w-4" />
-              </GlassButton>
-            )}
+        <div className="relative z-20">
+          <GlassInput
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            onEnterSubmit={handleSend}
+            disabled={disabled}
+            maxLength={maxLength}
+            placeholder={
+              disabled
+                ? "Upload a PDF document first to start chatting…"
+                : placeholder
+            }
+            className="pr-12 text-[#1f1f23] placeholder:text-[#5b5b66] font-medium"
+          />
+
+          <div className="flex items-center justify-between px-3 pb-1.5 pt-1">
+            {/* Character counter */}
+            <div className="text-[11px] font-medium text-[#5b5b66]">
+              {isNearLimit && (
+                <span className={value.length >= maxLength ? "text-danger font-semibold" : ""}>
+                  {value.length}/{maxLength}
+                </span>
+              )}
+            </div>
+
+            {/* Action button: Send or Stop */}
+            <div>
+              {isStreaming ? (
+                <GlassButton
+                  size="icon"
+                  variant="danger"
+                  onClick={handleStop}
+                  aria-label="Stop generating answer"
+                  className="h-8 w-8 rounded-full"
+                >
+                  <Square className="h-3.5 w-3.5 fill-current" />
+                </GlassButton>
+              ) : (
+                <GlassButton
+                  size="icon"
+                  variant="primary"
+                  onClick={handleSend}
+                  disabled={disabled || !value.trim()}
+                  aria-label="Send question"
+                  className="h-8 w-8 rounded-full shadow-md"
+                >
+                  <ArrowUp className="h-4 w-4" />
+                </GlassButton>
+              )}
+            </div>
           </div>
         </div>
       </div>

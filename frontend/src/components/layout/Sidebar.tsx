@@ -30,9 +30,9 @@ export function Sidebar({
   onCloseMobile,
 }: SidebarProps) {
   const sidebarContent = (
-    <div className="flex h-full flex-col justify-between p-3.5 space-y-4">
-      {/* Inner Content Layer (blur 30px, fill ~0.55) to guarantee text readability */}
-      <div className="flex-1 space-y-5 rounded-[20px] p-3.5 backdrop-blur-[30px] bg-white/55 border border-[rgba(255,255,255,0.85)] shadow-[0_0_0_1px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.95)] overflow-y-auto">
+    <div className="flex h-full flex-col justify-between p-4 space-y-4">
+      {/* Scrollable upper section - completely see-through so UploadZone sees dot background */}
+      <div className="flex-1 space-y-5 overflow-y-auto pr-1">
         {/* Brand Header */}
         <div className="flex items-center justify-between pb-1">
           <div className="flex items-center gap-2.5">
@@ -61,7 +61,7 @@ export function Sidebar({
           )}
         </div>
 
-        {/* Upload Zone */}
+        {/* Upload Zone (see-through liquid glass) */}
         <UploadZone
           onFileSelect={onUploadFile}
           isUploading={isUploading}
@@ -78,8 +78,8 @@ export function Sidebar({
         />
       </div>
 
-      {/* Session Info Footer Layer */}
-      <div className="rounded-[18px] border border-[rgba(255,255,255,0.85)] bg-white/55 p-3.5 text-[11px] text-[#5b5b66] shadow-[0_0_0_1px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.95)] backdrop-blur-[30px]">
+      {/* Session Info Badge (translucent liquid glass, no flat white) */}
+      <div className="rounded-2xl border border-[rgba(255,255,255,0.85)] bg-white/[0.12] p-3.5 text-[11px] text-[#5b5b66] shadow-[0_0_0_1px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.95),0_8px_32px_rgba(40,40,60,0.12)] backdrop-blur-[20px]">
         <div className="flex items-center gap-1.5 font-semibold text-[#1f1f23] mb-1">
           <ShieldCheck className="h-3.5 w-3.5" />
           <span>Anonymous Session</span>
@@ -93,14 +93,14 @@ export function Sidebar({
 
   return (
     <>
-      {/* Desktop Persistent Sidebar with rounded-24px and clear edge glass */}
+      {/* Desktop Persistent Sidebar */}
       <div className="hidden lg:block h-full w-[330px] shrink-0">
         <GlassPanel className="h-full w-full">
           {sidebarContent}
         </GlassPanel>
       </div>
 
-      {/* Mobile Drawer (with backdrop and spring physics) */}
+      {/* Mobile Drawer */}
       <AnimatePresence>
         {isOpenMobile && (
           <div className="fixed inset-0 z-50 lg:hidden">

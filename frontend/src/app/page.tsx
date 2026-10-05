@@ -64,7 +64,6 @@ export default function Home() {
   const [isWakingServer, setIsWakingServer] = useState(false);
   const [globalError, setGlobalError] = useState<string | null>(null);
 
-  // Stream simulation controller
   const streamingTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -252,14 +251,15 @@ export default function Home() {
   };
 
   return (
-    <div className="relative min-h-screen min-h-[100dvh] w-full select-none overflow-hidden bg-background">
-      {/* Background Pure Black Dot Layer Covering Full Screen Behind Panels */}
+    // Main page background is pure white (#ffffff)
+    <div className="relative min-h-screen min-h-[100dvh] w-full select-none overflow-hidden bg-[#ffffff]">
+      {/* Background Pure Black Dot Layer Covering Entire Screen */}
       <DotBackground />
 
       {/* Main Responsive Application Shell */}
       <div className="relative z-10 flex h-screen h-[100dvh] flex-col p-3 sm:p-5 lg:p-6">
-        {/* Mobile Top Navigation Bar */}
-        <div className="mb-3 flex items-center justify-between rounded-2xl border border-[rgba(255,255,255,0.85)] bg-white/55 px-4 py-2.5 shadow-[0_0_0_1px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.95),0_8px_32px_rgba(40,40,60,0.12)] backdrop-blur-[30px] lg:hidden">
+        {/* Mobile Top Navigation Bar (translucent liquid glass) */}
+        <div className="mb-3 flex items-center justify-between rounded-2xl border border-[rgba(255,255,255,0.85)] bg-white/[0.15] px-4 py-2.5 shadow-[0_0_0_1px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.95),0_8px_32px_rgba(40,40,60,0.12)] backdrop-blur-[24px] lg:hidden">
           <div className="flex items-center gap-2">
             <div className="h-2.5 w-2.5 rounded-full bg-accent" />
             <span className="font-semibold text-sm tracking-tight text-[#1f1f23]">
@@ -278,7 +278,7 @@ export default function Home() {
           </GlassButton>
         </div>
 
-        {/* Desktop Side-by-Side Panels (rounded corners at 24px) */}
+        {/* Desktop Side-by-Side Panels (rounded-24px, translucent glass) */}
         <div className="flex flex-1 gap-5 overflow-hidden">
           <Sidebar
             documents={documents}
@@ -308,7 +308,7 @@ export default function Home() {
         </div>
 
         {/* Phase 2 Interactive State Switcher */}
-        <footer className="mt-3 hidden sm:flex items-center justify-between rounded-xl border border-[rgba(255,255,255,0.85)] bg-white/55 px-3 py-1.5 text-xs text-[#5b5b66] shadow-[0_0_0_1px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.95)] backdrop-blur-[30px]">
+        <footer className="mt-3 hidden sm:flex items-center justify-between rounded-2xl border border-[rgba(255,255,255,0.85)] bg-white/[0.15] px-3.5 py-1.5 text-xs text-[#5b5b66] shadow-[0_0_0_1px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.95)] backdrop-blur-[24px]">
           <div className="flex items-center gap-1.5 font-semibold text-[#1f1f23]">
             <Layers className="h-3.5 w-3.5 text-accent" />
             <span>Phase 2 State Preview:</span>
@@ -317,55 +317,55 @@ export default function Home() {
           <div className="flex flex-wrap items-center gap-1">
             <button
               onClick={() => loadPresetState("normal")}
-              className="rounded-md px-2 py-0.5 text-[11px] font-medium text-[#1f1f23] hover:bg-white/70"
+              className="rounded-lg px-2 py-0.5 text-[11px] font-medium text-[#1f1f23] hover:bg-white/40 transition-colors"
             >
               Normal Chat
             </button>
             <button
               onClick={() => loadPresetState("empty")}
-              className="rounded-md px-2 py-0.5 text-[11px] font-medium text-[#1f1f23] hover:bg-white/70"
+              className="rounded-lg px-2 py-0.5 text-[11px] font-medium text-[#1f1f23] hover:bg-white/40 transition-colors"
             >
               Empty State
             </button>
             <button
               onClick={() => loadPresetState("docs-no-messages")}
-              className="rounded-md px-2 py-0.5 text-[11px] font-medium text-[#1f1f23] hover:bg-white/70"
+              className="rounded-lg px-2 py-0.5 text-[11px] font-medium text-[#1f1f23] hover:bg-white/40 transition-colors"
             >
               Chips Only
             </button>
             <button
               onClick={() => loadPresetState("uploading")}
-              className="rounded-md px-2 py-0.5 text-[11px] font-medium text-[#1f1f23] hover:bg-white/70"
+              className="rounded-lg px-2 py-0.5 text-[11px] font-medium text-[#1f1f23] hover:bg-white/40 transition-colors"
             >
               Uploading
             </button>
             <button
               onClick={() => loadPresetState("upload-failed")}
-              className="rounded-md px-2 py-0.5 text-[11px] font-medium text-[#1f1f23] hover:bg-white/70"
+              className="rounded-lg px-2 py-0.5 text-[11px] font-medium text-[#1f1f23] hover:bg-white/40 transition-colors"
             >
               Upload Error
             </button>
             <button
               onClick={() => loadPresetState("thinking")}
-              className="rounded-md px-2 py-0.5 text-[11px] font-medium text-[#1f1f23] hover:bg-white/70"
+              className="rounded-lg px-2 py-0.5 text-[11px] font-medium text-[#1f1f23] hover:bg-white/40 transition-colors"
             >
               Thinking Dot
             </button>
             <button
               onClick={() => loadPresetState("not-found")}
-              className="rounded-md px-2 py-0.5 text-[11px] font-medium text-[#1f1f23] hover:bg-white/70"
+              className="rounded-lg px-2 py-0.5 text-[11px] font-medium text-[#1f1f23] hover:bg-white/40 transition-colors"
             >
               Not Found
             </button>
             <button
               onClick={() => loadPresetState("cold-start")}
-              className="rounded-md px-2 py-0.5 text-[11px] font-medium text-[#1f1f23] hover:bg-white/70"
+              className="rounded-lg px-2 py-0.5 text-[11px] font-medium text-[#1f1f23] hover:bg-white/40 transition-colors"
             >
               Cold Start
             </button>
             <button
               onClick={() => loadPresetState("error")}
-              className="rounded-md px-2 py-0.5 text-[11px] font-medium text-[#1f1f23] hover:bg-white/70"
+              className="rounded-lg px-2 py-0.5 text-[11px] font-medium text-[#1f1f23] hover:bg-white/40 transition-colors"
             >
               Server Error
             </button>
