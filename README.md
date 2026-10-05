@@ -4,17 +4,6 @@
 
 ---
 
-## Demo & Previews
-
-- **Live Demo:** [LIVE DEMO LINK]
-- **Walkthrough Video:** [DEMO VIDEO LINK]
-
-```
-[SCREENSHOT]
-```
-
----
-
 ## Features
 
 - **Grounded Question Answering:** Answers questions strictly using uploaded PDF context, citing the exact document and page number for every claim (e.g. `(report.pdf, p. 3)`).
@@ -22,7 +11,6 @@
 - **Real-Time Token Streaming:** Delivers answers progressively using Server-Sent Events (SSE) with sub-second time-to-first-token.
 - **Conversational Memory & Query Rewriting:** Automatically reformulates contextual follow-up questions (e.g. *"What about fish?"*) into standalone search queries.
 - **Robust PDF Parsing & Validation:** Validates magic byte headers, enforces file size (<= 10 MB) and page limits (<= 100 pages), and detects scanned image PDFs.
-- **Liquid Glass Interface:** Interactive responsive UI with frosted glassmorphism, mouse-repelling background particle canvas, and mobile drawer support.
 
 ---
 
