@@ -146,9 +146,11 @@ export function ChatWindow({
         ) : (
           // Individual message bubbles directly over dots
           <>
-            {messages.map((message) => (
-              <MessageBubble key={message.id} message={message} />
-            ))}
+            {messages
+              .filter((message) => message.content.length > 0 || message.status === "error")
+              .map((message) => (
+                <MessageBubble key={message.id} message={message} />
+              ))}
 
             {isThinking && (
               <div className="flex justify-start">
