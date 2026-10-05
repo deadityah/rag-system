@@ -21,7 +21,7 @@ export function DocumentList({
 
   if (documents.length === 0) {
     return (
-      <div className="py-6 text-center">
+      <div className="py-4 text-center">
         <p className="text-xs text-[#5b5b66]">No documents uploaded yet.</p>
       </div>
     );
@@ -29,8 +29,9 @@ export function DocumentList({
 
   return (
     <div className="space-y-2">
-      <div className="flex items-center justify-between px-1 text-xs font-semibold text-[#5b5b66]">
-        <span>Uploaded Files ({documents.length}/5)</span>
+      {/* Title as plain text directly over the dots (no card behind it) */}
+      <div className="px-1 text-xs font-semibold text-[#5b5b66]">
+        Uploaded Files ({documents.length}/5)
       </div>
 
       <div className="space-y-2">
@@ -46,19 +47,16 @@ export function DocumentList({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 className={cn(
-                  "group relative flex items-center justify-between rounded-xl p-3 transition-all",
-                  "border border-[rgba(255,255,255,0.85)]",
-                  "shadow-[0_0_0_1px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.95),0_8px_32px_rgba(40,40,60,0.12)]",
-                  "backdrop-blur-[30px] bg-white/55",
-                  "hover:bg-white/70 hover:shadow-md"
+                  "glass-card-text group relative flex items-center justify-between rounded-[16px] p-3 transition-all",
+                  "hover:bg-white/35 hover:shadow-lg"
                 )}
               >
-                <div className="flex min-w-0 flex-1 items-center gap-2.5">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/80 bg-white/80 text-[#1f1f23] shadow-sm">
+                <div className="flex min-w-0 flex-1 items-center gap-3">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/90 bg-white/30 text-[#1f1f23] shadow-[0_0_0_1px_rgba(0,0,0,0.07),inset_0_1px_0_rgba(255,255,255,0.95)] backdrop-blur-md">
                     {doc.status === "processing" ? (
                       <Loader2 className="h-4 w-4 animate-spin text-[#1f1f23]" />
                     ) : (
-                      <FileText className="h-4 w-4" />
+                      <FileText className="h-4.5 w-4.5" />
                     )}
                   </div>
 
@@ -69,11 +67,11 @@ export function DocumentList({
                     >
                       {doc.filename}
                     </p>
-                    <p className="text-[11px] text-[#5b5b66]">
+                    <p className="text-[11px] text-[#5b5b66] font-medium">
                       {doc.status === "processing" ? (
-                        <span className="text-amber-700 font-medium">Processing…</span>
+                        <span className="text-amber-700 font-semibold">Processing…</span>
                       ) : doc.status === "failed" ? (
-                        <span className="text-red-600 font-medium">Failed</span>
+                        <span className="text-red-600 font-semibold">Failed</span>
                       ) : (
                         `${doc.page_count} ${doc.page_count === 1 ? "page" : "pages"}`
                       )}
@@ -84,7 +82,7 @@ export function DocumentList({
                 {/* Delete / Inline Confirm Area */}
                 <div className="ml-2 shrink-0">
                   {isConfirming ? (
-                    <div className="flex items-center gap-1 rounded-lg border border-red-200 bg-white/95 p-1 shadow-sm">
+                    <div className="flex items-center gap-1 rounded-xl border border-red-200/90 bg-white/90 p-1 shadow-sm backdrop-blur-md">
                       <span className="text-[10px] text-red-600 font-semibold px-1">
                         Delete?
                       </span>
@@ -110,7 +108,7 @@ export function DocumentList({
                     <button
                       onClick={() => setConfirmDeleteId(doc.id)}
                       aria-label={`Delete ${doc.filename}`}
-                      className="rounded-lg border border-transparent p-1.5 text-[#5b5b66] opacity-70 transition-all hover:border-red-200 hover:bg-red-50 hover:text-red-600 hover:opacity-100 group-hover:opacity-100"
+                      className="rounded-lg border border-transparent p-1.5 text-[#5b5b66] opacity-70 transition-all hover:border-white/80 hover:bg-white/40 hover:text-red-600 hover:opacity-100 group-hover:opacity-100"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                     </button>

@@ -3,42 +3,22 @@
 @tailwind utilities;
 
 :root {
-  /* Dot Color */
+  /* Dot Color (Pure Black #000000) */
   --dot-color: #000000;
 
-  /* Base Page Surfaces (Pure White) */
-  --bg-base: #ffffff;
-  --bg-soft: #ffffff;
-
-  /* Liquid Glass Section Tokens */
-  --glass-section-tint: rgba(255, 255, 255, 0.10);
-  --glass-section-blur: 24px;
-  --glass-section-saturate: 160%;
-
-  /* Exact Borders & Rings */
-  --glass-border: rgba(255, 255, 255, 0.85);
-  --glass-ring: rgba(0, 0, 0, 0.08);
-  --glass-highlight: rgba(255, 255, 255, 0.95);
-  --glass-shadow: 0 8px 32px rgba(40, 40, 60, 0.12);
-
-  /* Panel Perimeter Blur */
-  --glass-blur-edge: 14px;
+  /* Page Surface (Pure White only) */
+  --bg-page: #ffffff;
 
   /* Text & Contrast */
   --text-primary: #1f1f23;
   --text-secondary: #5b5b66;
-  --text-muted: #8c8c97;
+  --text-muted: #71717a;
 
   /* Accents */
   --accent: #2b2b33;
   --accent-soft: rgba(43, 43, 51, 0.08);
   --danger: #c0392b;
   --success: #2f8f5b;
-
-  /* Shape */
-  --radius-lg: 24px;
-  --radius-md: 16px;
-  --radius-sm: 10px;
 }
 
 body {
@@ -61,7 +41,7 @@ h6 {
   font-family: var(--font-heading), system-ui, -apple-system, sans-serif;
 }
 
-/* Form controls must inherit body font (Titillium Web) */
+/* Form controls inherit body font (Titillium Web) */
 button,
 input,
 textarea,
@@ -69,66 +49,77 @@ select {
   font-family: inherit;
 }
 
-/* Logo font class (Playwrite Argentina) */
+/* Font utilities */
 .font-logo {
   font-family: var(--font-logo), cursive;
 }
 
-/* Heading font utility */
 .font-heading {
   font-family: var(--font-heading), system-ui, -apple-system, sans-serif;
 }
 
-/* Body font utility */
 .font-body {
   font-family: var(--font-body), system-ui, -apple-system, sans-serif;
 }
 
-/* Master liquid glass border & shadow style */
-.liquid-glass-border-shadow {
-  border: 1px solid rgba(255, 255, 255, 0.85);
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08),
-              inset 0 1px 0 rgba(255, 255, 255, 0.95),
-              inset 2px 2px 0.5px -2px rgba(255, 255, 255, 0.9),
-              inset -2px -2px 0.5px -2px rgba(0, 0, 0, 0.08),
-              0 8px 32px rgba(40, 40, 60, 0.12);
-}
+/* -------------------------------------------------------------
+   SHARED GLASS CARD SYSTEM (Used by every card in the app)
+   ------------------------------------------------------------- */
 
-/* Liquid glass style for UploadZone and ChatInput (see-through, no flat white) */
-.liquid-section-glass {
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  background-color: rgba(255, 255, 255, 0.10);
-  border: 1px solid rgba(255, 255, 255, 0.85);
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08),
-              inset 0 1px 0 rgba(255, 255, 255, 0.95),
-              inset 2px 2px 0.5px -2px rgba(255, 255, 255, 0.9),
-              0 8px 32px rgba(40, 40, 60, 0.12);
-}
-
-/* Panel glass background layer */
-.glass-panel-bg {
-  backdrop-filter: blur(var(--glass-blur-edge));
-  -webkit-backdrop-filter: blur(var(--glass-blur-edge));
+/* Standard Glass Card (Header card, Session card, State preview bar) */
+.glass-card {
+  position: relative;
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.08) 0%,
-    rgba(255, 255, 255, 0.14) 45%,
-    rgba(255, 255, 255, 0.18) 100%
+    rgba(255, 255, 255, 0.28) 0%,
+    rgba(255, 255, 255, 0.18) 50%,
+    rgba(255, 255, 255, 0.10) 100%
   );
-  border: 1px solid rgba(255, 255, 255, 0.85);
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08),
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.07),
               inset 0 1px 0 rgba(255, 255, 255, 0.95),
-              inset 2px 2px 0.5px -2px rgba(255, 255, 255, 0.9),
-              inset -2px -2px 0.5px -2px rgba(0, 0, 0, 0.08),
-              0 8px 32px rgba(40, 40, 60, 0.12);
+              0 8px 28px rgba(30, 30, 50, 0.10);
 }
 
-/* Liquid refraction filter layer from reference/liquidglass.md */
-@supports (backdrop-filter: url(#documind-glass-filter)) {
-  .liquid-refraction {
-    backdrop-filter: url(#documind-glass-filter) blur(24px) saturate(160%);
-    -webkit-backdrop-filter: url(#documind-glass-filter) blur(24px) saturate(160%);
+/* Text-Dense Glass Card (Upload card, File items, Message bubbles, Input box) */
+.glass-card-text {
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.26);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.07),
+              inset 0 1px 0 rgba(255, 255, 255, 0.95),
+              0 8px 28px rgba(30, 30, 50, 0.10);
+}
+
+/* Liquid glass top/left specular rim highlight */
+.glass-card::before,
+.glass-card-text::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.35) 40%,
+    transparent 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Fallback for browsers without backdrop-filter */
+@supports not (backdrop-filter: blur(16px)) {
+  .glass-card,
+  .glass-card-text {
+    background-color: rgba(255, 255, 255, 0.7);
   }
 }
 
@@ -143,10 +134,10 @@ select {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.18);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.30);
 }

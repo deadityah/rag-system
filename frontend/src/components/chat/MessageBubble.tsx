@@ -59,7 +59,7 @@ export const MessageBubble = React.memo(function MessageBubble({
                 {children}
               </code>
             ) : (
-              <pre className="my-2 overflow-x-auto rounded-xl border border-black/10 bg-white/50 p-3 font-mono text-xs text-[#1f1f23]">
+              <pre className="my-2 overflow-x-auto rounded-xl border border-black/10 bg-white/40 p-3 font-mono text-xs text-[#1f1f23]">
                 <code>{children}</code>
               </pre>
             );
@@ -83,13 +83,10 @@ export const MessageBubble = React.memo(function MessageBubble({
     >
       <div
         className={cn(
-          "relative max-w-[85%] sm:max-w-[75%] rounded-2xl px-5 py-3.5 text-[16px] leading-[1.65] transition-all",
-          "border border-[rgba(255,255,255,0.85)]",
-          "shadow-[0_0_0_1px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.95),0_8px_32px_rgba(40,40,60,0.12)]",
-          "backdrop-blur-[30px]",
+          "glass-card-text relative max-w-[85%] sm:max-w-[75%] rounded-[24px] px-5 py-4 text-[16px] leading-[1.65] transition-all",
           isUser
-            ? "bg-white/70 text-[#1f1f23] rounded-br-sm"
-            : "bg-white/55 text-[#1f1f23] rounded-bl-sm"
+            ? "bg-white/35 rounded-br-sm text-[#1f1f23]"
+            : "rounded-bl-sm text-[#1f1f23]"
         )}
       >
         {/* Assistant Copy Button */}
@@ -97,12 +94,12 @@ export const MessageBubble = React.memo(function MessageBubble({
           <button
             onClick={handleCopy}
             aria-label="Copy answer to clipboard"
-            className="absolute -top-3 right-3 rounded-full border border-white/90 bg-white/95 p-1.5 text-[#5b5b66] opacity-0 shadow-sm transition-all hover:bg-white hover:text-[#1f1f23] group-hover:opacity-100"
+            className="absolute -top-3 right-3 rounded-full border border-white/90 bg-white/60 p-1.5 text-[#5b5b66] opacity-0 shadow-sm backdrop-blur-md transition-all hover:bg-white hover:text-[#1f1f23] group-hover:opacity-100"
           >
             {copied ? (
-              <Check className="h-3 w-3 text-emerald-600" />
+              <Check className="h-3.5 w-3.5 text-emerald-600" />
             ) : (
-              <Copy className="h-3 w-3" />
+              <Copy className="h-3.5 w-3.5" />
             )}
           </button>
         )}

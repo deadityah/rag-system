@@ -24,7 +24,6 @@ interface DotBackgroundProps {
   color?: string;
 }
 
-// Helper to convert hex color to rgba with dynamic opacity
 function hexToRgba(hex: string, alpha: number): string {
   const cleanHex = hex.replace("#", "");
   const r = parseInt(cleanHex.substring(0, 2), 16) || 0;
@@ -34,8 +33,8 @@ function hexToRgba(hex: string, alpha: number): string {
 }
 
 export function DotBackground({
-  dotSize = 2,
-  dotSpacing = 28,
+  dotSize = 1.8,
+  dotSpacing = 22,
   repulsionRadius = 110,
   repulsionStrength = 28,
   color = DOT_COLOR,
@@ -49,7 +48,6 @@ export function DotBackground({
     const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 
-    // Check prefers-reduced-motion for accessibility
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
@@ -60,14 +58,13 @@ export function DotBackground({
     let mouseY = Number.POSITIVE_INFINITY;
     let lastTime = performance.now();
 
-    // Spring constants from repeleffect.md
     const stiffness = 300;
     const damping = 30;
     const mass = 0.5;
-    const proximityBoost = 0.8;
+    const proximityBoost = 0.2;
 
     const resizeCanvas = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2); // Cap DPR at 2 for performance
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const width = window.innerWidth;
       const height = window.innerHeight;
 
@@ -79,27 +76,19 @@ export function DotBackground({
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.scale(dpr, dpr);
 
-      // Generate dot grid across the entire screen
       dots = [];
       const cols = Math.ceil(width / dotSpacing);
       const rows = Math.ceil(height / dotSpacing);
-      const centerX = width / 2;
-      const centerY = height / 2;
-      const maxDistance = Math.sqrt(centerX * centerX + centerY * centerY);
 
       for (let row = 0; row <= rows; row++) {
         for (let col = 0; col <= cols; col++) {
           const x = col * dotSpacing;
           const y = row * dotSpacing;
 
-          const dx = x - centerX;
-          const dy = y - centerY;
-          const distFromCenter = Math.sqrt(dx * dx + dy * dy);
-          const edgeFactor = Math.min(distFromCenter / (maxDistance * 0.75), 1);
-
+          // Target opacity ~0.8 across the entire screen
           const pattern = (row + col) % 3;
-          const baseOpacities = [0.3, 0.5, 0.7];
-          const baseOpacity = baseOpacities[pattern] * (0.5 + 0.5 * edgeFactor);
+          const baseOpacities = [0.75, 0.8, 0.85];
+          const baseOpacity = baseOpacities[pattern];
 
           dots.push({
             x,
@@ -113,7 +102,6 @@ export function DotBackground({
         }
       }
 
-      // If reduced motion is requested, render static dots once
       if (prefersReducedMotion) {
         drawStaticDots();
       }
@@ -125,13 +113,13 @@ export function DotBackground({
         const dot = dots[i];
         ctx.beginPath();
         ctx.arc(dot.baseX, dot.baseY, dotSize / 2, 0, Math.PI * 2);
-        ctx.fillStyle = hexToRgba(color, dot.baseOpacity * 0.65);
+        ctx.fillStyle = hexToRgba(color, dot.baseOpacity);
         ctx.fill();
       }
     };
 
     const render = (currentTime: number) => {
-      const dt = Math.min((currentTime - lastTime) / 1000, 0.032); // Clamp dt to prevent jumping
+      const dt = Math.min((currentTime - lastTime) / 1000, 0.032);
       lastTime = currentTime;
 
       const width = window.innerWidth;
@@ -141,7 +129,6 @@ export function DotBackground({
       for (let i = 0; i < dots.length; i++) {
         const dot = dots[i];
 
-        // Repulsion physics calculation from repeleffect.md
         let targetOffsetX = 0;
         let targetOffsetY = 0;
         let currentOpacity = dot.baseOpacity;
@@ -162,7 +149,6 @@ export function DotBackground({
           }
         }
 
-        // Spring physics: F = -k*(x - target) - c*v
         const currentOffsetX = dot.x - dot.baseX;
         const currentOffsetY = dot.y - dot.baseY;
 
@@ -178,17 +164,15 @@ export function DotBackground({
         dot.x += dot.vx * dt;
         dot.y += dot.vy * dt;
 
-        // Render dot in pure black with dynamic opacity
         ctx.beginPath();
         ctx.arc(dot.x, dot.y, dotSize / 2, 0, Math.PI * 2);
-        ctx.fillStyle = hexToRgba(color, currentOpacity * 0.65);
+        ctx.fillStyle = hexToRgba(color, currentOpacity);
         ctx.fill();
       }
 
       animationFrameId = requestAnimationFrame(render);
     };
 
-    // Mouse & Touch listeners on window
     const handleMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;

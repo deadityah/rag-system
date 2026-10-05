@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "motion/react";
 import { BookOpen, X, ShieldCheck } from "lucide-react";
 import React from "react";
 import type { DocumentInfo } from "@/lib/types";
-import { GlassPanel } from "@/components/ui/GlassPanel";
 import { UploadZone } from "@/components/documents/UploadZone";
 import { DocumentList } from "@/components/documents/DocumentList";
 
@@ -29,27 +28,26 @@ export function Sidebar({
   isOpenMobile = false,
   onCloseMobile,
 }: SidebarProps) {
-  const sidebarContent = (
-    <div className="flex h-full flex-col justify-between p-4 space-y-4">
-      {/* Scrollable upper section - completely see-through so UploadZone sees dot background */}
-      <div className="flex-1 space-y-5 overflow-y-auto pr-1">
-        {/* Brand Header with Playwrite Argentina Logo */}
-        <div className="flex items-center justify-between pb-1">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/50 bg-[#2b2b33] text-white shadow-md">
+  const sidebarCards = (
+    <div className="flex h-full flex-col justify-between gap-4">
+      {/* Upper Cards Area */}
+      <div className="flex flex-1 flex-col gap-4 overflow-y-auto pr-1">
+        {/* Card A: Header Card (Logo + Title block as its own separate glass card) */}
+        <div className="glass-card rounded-[24px] p-4 flex items-center justify-between shrink-0">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/60 bg-[#2b2b33] text-white shadow-md">
               <BookOpen className="h-5 w-5" />
             </div>
             <div>
               <span className="font-logo font-normal text-2xl tracking-normal text-[#1f1f23] block leading-none">
                 DocuMind
               </span>
-              <p className="text-[11px] text-[#5b5b66] mt-0.5">
+              <p className="text-[11px] text-[#5b5b66] mt-0.5 font-medium">
                 Intelligent Document RAG
               </p>
             </div>
           </div>
 
-          {/* Mobile close button */}
           {onCloseMobile && (
             <button
               onClick={onCloseMobile}
@@ -61,7 +59,7 @@ export function Sidebar({
           )}
         </div>
 
-        {/* Upload Zone (see-through liquid glass) */}
+        {/* Card B: Upload PDF Document Card */}
         <UploadZone
           onFileSelect={onUploadFile}
           isUploading={isUploading}
@@ -71,17 +69,17 @@ export function Sidebar({
           maxDocuments={5}
         />
 
-        {/* Document List */}
+        {/* Section C: Uploaded Files (Title as plain text over dots + each file as its own card) */}
         <DocumentList
           documents={documents}
           onDelete={onDeleteDocument}
         />
       </div>
 
-      {/* Session Info Badge */}
-      <div className="rounded-2xl border border-[rgba(255,255,255,0.85)] bg-white/[0.12] p-3.5 text-[11px] text-[#5b5b66] shadow-[0_0_0_1px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.95),0_8px_32px_rgba(40,40,60,0.12)] backdrop-blur-[20px]">
+      {/* Card E: Anonymous Session Card */}
+      <div className="glass-card rounded-[24px] p-4 text-[11px] text-[#5b5b66] shrink-0">
         <div className="flex items-center gap-1.5 font-heading font-semibold text-[#1f1f23] mb-1">
-          <ShieldCheck className="h-3.5 w-3.5" />
+          <ShieldCheck className="h-4 w-4" />
           <span>Anonymous Session</span>
         </div>
         <p className="leading-relaxed">
@@ -93,12 +91,10 @@ export function Sidebar({
 
   return (
     <>
-      {/* Desktop Persistent Sidebar */}
-      <div className="hidden lg:block h-full w-[330px] shrink-0">
-        <GlassPanel className="h-full w-full">
-          {sidebarContent}
-        </GlassPanel>
-      </div>
+      {/* Desktop Sidebar: Fully transparent wrapper, separate cards over dots */}
+      <aside className="hidden lg:flex h-full w-[330px] shrink-0 flex-col bg-transparent">
+        {sidebarCards}
+      </aside>
 
       {/* Mobile Drawer */}
       <AnimatePresence>
@@ -109,20 +105,18 @@ export function Sidebar({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={onCloseMobile}
-              className="absolute inset-0 bg-black/25 backdrop-blur-sm"
+              className="absolute inset-0 bg-black/20 backdrop-blur-sm"
             />
 
-            <motion.aside
+            <motion.div
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 250 }}
-              className="absolute top-0 bottom-0 left-0 w-[310px] max-w-[85vw] p-2.5"
+              className="absolute top-0 bottom-0 left-0 w-[310px] max-w-[85vw] p-3"
             >
-              <GlassPanel className="h-full w-full shadow-2xl">
-                {sidebarContent}
-              </GlassPanel>
-            </motion.aside>
+              {sidebarCards}
+            </motion.div>
           </div>
         )}
       </AnimatePresence>

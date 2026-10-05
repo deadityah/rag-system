@@ -43,26 +43,12 @@ export function ChatInput({
     <div className="relative w-full">
       <div
         className={cn(
-          "group relative flex flex-col overflow-hidden rounded-2xl p-1.5 transition-all",
-          // Liquid glass styling: see-through, blur(24px) saturate(160%), light tint 0.10, exact borders & shadow
-          "liquid-section-glass",
-          "focus-within:bg-white/[0.16] focus-within:shadow-lg",
+          "glass-card-text group relative flex flex-col rounded-[24px] p-2 transition-all",
+          "focus-within:bg-white/35 focus-within:shadow-xl",
           disabled && "opacity-60 cursor-not-allowed"
         )}
       >
-        {/* SVG liquid glass displacement backdrop layer from liquidglass.md */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 -z-10 rounded-[inherit] liquid-refraction opacity-70"
-        />
-
-        {/* Hover reflection sheen from liquidglass.md */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-10 rounded-[inherit] bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
-        />
-
-        <div className="relative z-20">
+        <div className="relative z-10">
           <GlassInput
             value={value}
             onChange={(e) => setValue(e.target.value)}
@@ -74,12 +60,12 @@ export function ChatInput({
                 ? "Upload a PDF document first to start chatting…"
                 : placeholder
             }
-            className="pr-12 text-[#1f1f23] placeholder:text-[#5b5b66] font-medium"
+            className="pr-12 text-[#1f1f23] placeholder:text-[#71717a] font-normal text-base"
           />
 
           <div className="flex items-center justify-between px-3 pb-1.5 pt-1">
             {/* Character counter */}
-            <div className="text-[11px] font-medium text-[#5b5b66]">
+            <div className="text-[11px] font-medium text-[#71717a]">
               {isNearLimit && (
                 <span className={value.length >= maxLength ? "text-danger font-semibold" : ""}>
                   {value.length}/{maxLength}
@@ -95,7 +81,7 @@ export function ChatInput({
                   variant="danger"
                   onClick={handleStop}
                   aria-label="Stop generating answer"
-                  className="h-8 w-8 rounded-full"
+                  className="h-9 w-9 rounded-full"
                 >
                   <Square className="h-3.5 w-3.5 fill-current" />
                 </GlassButton>
@@ -106,9 +92,9 @@ export function ChatInput({
                   onClick={handleSend}
                   disabled={disabled || !value.trim()}
                   aria-label="Send question"
-                  className="h-8 w-8 rounded-full shadow-md"
+                  className="h-9 w-9 rounded-full shadow-md"
                 >
-                  <ArrowUp className="h-4 w-4" />
+                  <ArrowUp className="h-4.5 w-4.5" />
                 </GlassButton>
               )}
             </div>

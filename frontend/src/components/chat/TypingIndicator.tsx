@@ -12,7 +12,7 @@ export function TypingIndicator() {
   return (
     <div
       aria-label="Thinking"
-      className="inline-flex items-center gap-1.5 rounded-2xl border border-[rgba(255,255,255,0.85)] bg-white/55 px-4 py-3 shadow-[0_0_0_1px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.95),0_8px_32px_rgba(40,40,60,0.12)] backdrop-blur-[30px]"
+      className="glass-card-text inline-flex items-center gap-1.5 rounded-[24px] px-4 py-3"
     >
       <motion.span
         className="h-1.5 w-1.5 rounded-full bg-[#1f1f23]"
